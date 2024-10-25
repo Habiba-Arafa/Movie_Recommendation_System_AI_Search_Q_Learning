@@ -2,7 +2,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import json
 
-with open('csvs_and_jsons\\random_users.json', 'r') as file:
+with open('csvs_and_jsons\\random_users2.json', 'r') as file:
     data = json.load(file)
 
 class Node:
