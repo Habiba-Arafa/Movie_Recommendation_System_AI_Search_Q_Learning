@@ -1,7 +1,7 @@
 import random
 import json
 
-with open('movie_vectors.json', 'r') as file:
+with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     data = json.load(file)
 
 def generate_random_users(num_users, movies, max_movies_per_user):
@@ -14,5 +14,5 @@ def generate_random_users(num_users, movies, max_movies_per_user):
     return users
 
 random_users = generate_random_users(num_users=10, movies=data, max_movies_per_user=5)
-with open('randomUsers.json', 'w') as json_file:
+with open('csvs_and_jsons\\random_users.json', 'w') as json_file:
     json.dump(random_users, json_file, indent=4)

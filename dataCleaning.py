@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import json
 
-df = pd.read_csv('movie_dataset.csv')
+df = pd.read_csv('csvs_and_jsons\\movie_dataset.csv')
 df.duplicated().sum()
 df.drop(['budget', 'id', 'keywords', 'crew', 'vote_count', 'tagline', 'revenue',
          'production_countries', 'original_language', 'overview', 'status',
@@ -31,7 +31,7 @@ for genre in genres:
 df = df.drop(['genres'], axis=1)
 df = pd.get_dummies(df, columns=['vote_average'], drop_first=True)
 df = df.drop(['director', 'production_companies', 'index', 'cast'], axis=1, errors='ignore')
-df.to_csv('cleaned_movie_dataset.csv')
+df.to_csv('csvs_and_jsons\\cleaned_movie_dataset.csv')
 
 
 movie_vector = {}
@@ -47,7 +47,7 @@ for index, row in df.iterrows():
 
     movie_vector[movie_title] = genre_values + vote_one_hot
 
-with open('movie_vectors.json', 'w') as json_file:
+with open('csvs_and_jsons\\movie_vectors.json', 'w') as json_file:
     json.dump(movie_vector, json_file, indent=4)
 print("tam benaga7")
 
