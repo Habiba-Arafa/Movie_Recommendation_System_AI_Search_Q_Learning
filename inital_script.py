@@ -1,18 +1,10 @@
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from collections import deque
+import json
 
-users = {
-    'user1': {
-        '12 angry men': [1, 0, 1, 1, 1],
-        'inception': [1, 0, 1, 1, 1]
-    },
-    'user2': {
-        'inception': [1, 0, 1, 1, 1],
-        'the platform': [0, 0, 1, 1, 1],
-        'the plaform 2':[1 ,1 ,1 ,1 ,1]
-    }
-}
+with open('randomUsers.json', 'r') as file:
+    data = json.load(file)
 
 class Node:
     def __init__(self, state, parent, action, path_cost):
@@ -47,7 +39,7 @@ class MovieRecommender:
         return vector_copy
 
     def goal_test(self, current_vector):
-        for other_user, other_movies in users.items():
+        for other_user, other_movies in data.items():
             if other_user == self.user_id:  
                 continue
             for movie, vector in other_movies.items():
@@ -83,9 +75,11 @@ def breadth_first_tree_search(problem):
             frontier.append(child_node)
     return None
 
+
 user_id = 'user1'
-initial_state = users[user_id]['inception'] 
-recommender = MovieRecommender(initial_state, user_id,'inception')
+movie='Karakter'
+initial_state = data[user_id][movie] 
+recommender = MovieRecommender(initial_state, user_id,movie)
 recommended_movie = breadth_first_tree_search(recommender)
 if recommended_movie:
     print("Recommended movie:", recommended_movie)
