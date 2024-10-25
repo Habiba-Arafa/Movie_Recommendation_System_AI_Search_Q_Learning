@@ -42,7 +42,7 @@ class MovieRecommender:
             if other_user == self.user_id:  
                 continue
             for movie, vector in other_movies.items():
-                if self.compute_similarity(current_vector, vector) >=0.5 and movie != self.movie: 
+                if self.compute_similarity(current_vector, vector) >=0.8 and movie != self.movie: 
                     return movie  
         return None
 
