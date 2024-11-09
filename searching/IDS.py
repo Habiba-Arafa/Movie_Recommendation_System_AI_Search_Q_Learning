@@ -17,7 +17,7 @@ def dls(problem, state, depth, visited):
         new_state = problem.actions(next_state, movie_index)
         next_state_tuple = tuple(new_state)  
 
-        if next_state_tuple not in visited:  # Avoid cycles
+        if next_state_tuple not in visited:  
             visited.add(next_state_tuple)  
             result = dls(problem, new_state, depth - 1, visited)  # Use new_state for recursion
             if result:  
