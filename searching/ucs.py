@@ -29,8 +29,8 @@ def uniform_cost_search(problem,movie_name):
             heapq.heappush(priority_queue, [total_cost, child_node ,name])
     return None
 
-user_id  = 'user2'
-movie ='The Butterfly Effect'
+user_id  = 'user1'
+movie ='Swept Away'
 initial_state = users[user_id][movie] 
 recommender = MovieRecommender(initial_state, user_id,movie)
 recommended_movie = uniform_cost_search(recommender,movie)
