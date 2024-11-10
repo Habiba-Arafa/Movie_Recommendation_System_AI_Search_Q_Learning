@@ -2,7 +2,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import json
 
-with open('csvs_and_jsons\\random_users2.json', 'r') as file:
+with open('csvs_and_jsons\\random_users.json', 'r') as file:
     data = json.load(file)
 
 class Node:
@@ -42,7 +42,7 @@ class MovieRecommender:
             if other_user == self.user_id:  
                 continue
             for movie, vector in other_movies.items():
-                if self.compute_similarity(current_vector, vector) >=0.8 and movie != self.movie: 
+                if self.compute_similarity(current_vector, vector) >=0.6 and movie != self.movie: 
                     return movie  
         return None
 

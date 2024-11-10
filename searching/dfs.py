@@ -3,7 +3,7 @@ import json
 from problem_modeling import Node
 from collections import deque
 
-with open('csvs_and_jsons\\random_users2.json', 'r') as file:
+with open('csvs_and_jsons\\random_users.json', 'r') as file:
     data = json.load(file)
 
 def depth_first_tree_search(problem, verbose=False):
@@ -12,7 +12,6 @@ def depth_first_tree_search(problem, verbose=False):
     while frontier:
         node = frontier.pop()  # Last-in, first-out (LIFO)
         state_tuple = tuple(node.state)  # Convert state to a hashable type for set
-        
         if state_tuple in problem.visited:
             continue
 
@@ -22,7 +21,7 @@ def depth_first_tree_search(problem, verbose=False):
             return recommended_movie  
 
         for movie_index in range(len(problem.initial_state)):
-            new_state = problem.actions(node.state, movie_index)  
+            new_state = problem.actions(node.state, movie_index)
             child_node = Node.child(problem, node, new_state)
 
             if tuple(child_node.state) not in problem.visited:
@@ -35,8 +34,9 @@ def depth_first_tree_search(problem, verbose=False):
     return None 
 
 user_id  = 'user1'
-movie ='Dying of the Light'
+movie ='Swept Away'
 initial_state = data[user_id][movie] 
+print('original vector: ',initial_state)
 recommender = MovieRecommender(initial_state, user_id,movie)
 recommended_movie = depth_first_tree_search(recommender)
 if recommended_movie:

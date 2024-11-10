@@ -3,7 +3,7 @@ import json
 from problem_modeling import Node
 from collections import deque
 
-with open('csvs_and_jsons\\random_users2.json', 'r') as file:
+with open('csvs_and_jsons\\random_users.json', 'r') as file:
     data = json.load(file)
 
 def breadth_first_tree_search(problem):
@@ -17,7 +17,7 @@ def breadth_first_tree_search(problem):
         recommended_movie = problem.goal_test(node.state)
         if recommended_movie:
             return recommended_movie
-
+        
         for movie_index in range(len(problem.initial_state)):
             new_state = problem.actions(node.state, movie_index)
             child_node = Node.child(problem, node, new_state)
@@ -25,7 +25,7 @@ def breadth_first_tree_search(problem):
     return None
 
 user_id  = 'user1'
-movie ='Dying of the Light'
+movie ='Swept Away'
 initial_state = data[user_id][movie] 
 recommender = MovieRecommender(initial_state, user_id,movie)
 recommended_movie = breadth_first_tree_search(recommender)

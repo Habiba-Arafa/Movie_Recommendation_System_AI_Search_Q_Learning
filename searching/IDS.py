@@ -1,7 +1,7 @@
 from problem_modeling import MovieRecommender
 import json
 
-with open('csvs_and_jsons\\random_users2.json', 'r') as file:
+with open('csvs_and_jsons\\random_users.json', 'r') as file:
     data = json.load(file)
 
 def dls(problem, state, depth, visited):
@@ -36,7 +36,7 @@ def iddfs(problem, start_state):
         depth += 1
 
 user_id = 'user1'
-movie = 'Dying of the Light'
+movie = 'Swept Away'
 initial_state = data[user_id][movie] 
 recommender = MovieRecommender(initial_state, user_id, movie)
 
