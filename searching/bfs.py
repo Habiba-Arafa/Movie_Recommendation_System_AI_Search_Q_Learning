@@ -25,7 +25,7 @@ def breadth_first_tree_search(problem):
     return None
 
 user_id  = 'user1'
-movie ='Swept Away'
+movie ='The Real Cancun'
 initial_state = data[user_id][movie] 
 recommender = MovieRecommender(initial_state, user_id,movie)
 recommended_movie = breadth_first_tree_search(recommender)

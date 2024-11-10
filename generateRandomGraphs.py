@@ -20,7 +20,7 @@ def generate_random_users(movies):
         random_number = random.randint(1, 4)
         selected_movies = random.sample(list(movies), min(random_number, len(movies)))
         for movie in selected_movies:
-            dictionary[movie]= compute_similarity(value, data[movie])
+            dictionary[movie]= 1-compute_similarity(value, data[movie])
         graph[key] = dictionary
     return graph
 
