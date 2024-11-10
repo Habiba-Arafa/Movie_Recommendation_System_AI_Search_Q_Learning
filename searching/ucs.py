@@ -30,7 +30,7 @@ def uniform_cost_search(problem,movie_name):
     return None
 
 user_id  = 'user1'
-movie ='Swept Away'
+movie ='A Christmas Carol'
 initial_state = users[user_id][movie] 
 recommender = MovieRecommender(initial_state, user_id,movie)
 recommended_movie = uniform_cost_search(recommender,movie)

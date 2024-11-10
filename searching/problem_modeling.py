@@ -45,19 +45,18 @@ class MovieRecommender:
             if other_user == self.user_id:  
                 continue
             for movie, vector in other_movies.items():
-                if self.compute_similarity(current_vector, vector) >=0.8 and movie != self.movie: 
+                if compute_similarity(current_vector, vector) >=0.8 and movie != self.movie: 
                     return movie  
         return None
-
-    def compute_similarity(self, vector1, vector2):
-        vector1 = np.array(vector1).reshape(1, -1)
-        vector2 = np.array(vector2).reshape(1, -1)
-        similarity = cosine_similarity(vector1, vector2)
-        return similarity[0][0]
 
     def result(self, state, action):
         return action 
 
+def compute_similarity(vector1, vector2):
+        vector1 = np.array(vector1).reshape(1, -1)
+        vector2 = np.array(vector2).reshape(1, -1)
+        similarity = cosine_similarity(vector1, vector2)
+        return similarity[0][0]
 
 
 
