@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
 
 
-    graph_path = "searching//custom_test_graph.json"
+    graph_path =  "csvs_and_jsons/custom_test_graph.json"
     
     try:
         with open(graph_path, 'r') as file:

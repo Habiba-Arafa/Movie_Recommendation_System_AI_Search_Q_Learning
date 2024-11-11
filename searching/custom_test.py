@@ -27,7 +27,7 @@ custom_test_graph = {
     "Dunkirk": {},  
 }
 
-custom_test_file_path = "custom_test_graph.json"
+custom_test_file_path =  "csvs_and_jsons/custom_test_graph.json"
 with open(custom_test_file_path, "w") as file:
     json.dump(custom_test_graph, file, indent=4)
 
