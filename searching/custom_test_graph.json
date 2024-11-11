@@ -1,0 +1,25 @@
+{
+    "Avatar": {
+        "Pirates of the Caribbean: At World's End": 0.9,
+        "Spectre": 0.85
+    },
+    "Pirates of the Caribbean: At World's End": {
+        "The Dark Knight Rises": 0.7
+    },
+    "Spectre": {
+        "Avatar": 0.85
+    },
+    "The Dark Knight Rises": {},
+    "Inception": {
+        "Interstellar": 0.88,
+        "Tenet": 0.88
+    },
+    "Interstellar": {
+        "Inception": 0.88,
+        "Dunkirk": 0.88
+    },
+    "Tenet": {
+        "Inception": 0.88
+    },
+    "Dunkirk": {}
+}
