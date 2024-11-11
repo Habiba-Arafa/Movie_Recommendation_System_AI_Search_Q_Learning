@@ -5,9 +5,6 @@ import random
 with open('csvs_and_jsons\\movie_vectors2.json', 'r') as file:
     data = json.load(file)
 
-with open('csvs_and_jsons\\random_users.json', 'r') as file:
-    users= json.load(file)
-
 class Local_search_problem():
     def __init__(self,problem_vector):
         self.problem_vector = problem_vector
@@ -24,20 +21,18 @@ def simulated_annealling(problem):
         if current> max_similarity:
             max_similarity=current
             best_match_key=key
+            print("Best of the neighbors is ", best_match_key, " with similarity ",max_similarity)
         else:
             random_number = random.random()
             if temperature_schedule(i)>random_number:
                 max_similarity=current
                 best_match_key=key
+                print("Accepting the suboptimal neighbor ", best_match_key, " with similarity ",max_similarity)
             else:
                 return best_match_key
             
-user_id  = 'user1'
-movie ='A Christmas Carol'
-initial_state = users[user_id][movie] 
+start_movie = random.choice(list(data.keys()))
+initial_state = data[start_movie] 
 recommender = Local_search_problem(initial_state)
 recommended_movie = simulated_annealling(recommender)
-if recommended_movie:
-    print("Recommended movie:", recommended_movie)
-else:
-    print("No similar preference found.")
+print("Best match for ",start_movie, " is ", recommended_movie)

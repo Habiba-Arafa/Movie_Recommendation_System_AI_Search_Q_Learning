@@ -1,7 +1,6 @@
 import random
 import json
 
-
 def hill_climbing_with_graph(graph, start_movie=None, max_iterations=1000):
   
     # take random movie if there is no started movie 
@@ -56,7 +55,7 @@ if __name__ == "__main__":
 
 
 
-    graph_path = "custom_test_graph.json"
+    graph_path = "searching//custom_test_graph.json"
     
     try:
         with open(graph_path, 'r') as file:
