@@ -34,7 +34,7 @@ def depth_first_tree_search(problem, verbose=False):
     return None 
 
 user_id  = 'user1'
-movie ='Swept Away'
+movie ='A Christmas Carol'
 initial_state = data[user_id][movie] 
 print('original vector: ',initial_state)
 recommender = MovieRecommender(initial_state, user_id,movie)
