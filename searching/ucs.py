@@ -5,7 +5,7 @@ from problem_modeling import Node
 
 with open('csvs_and_jsons\\random_users.json', 'r') as file:
     users = json.load(file)
-with open('csvs_and_jsons\\movie_vectors2.json','r') as file:
+with open('csvs_and_jsons\\movie_vectors.json','r') as file:
     movies= json.load(file)
 with open('csvs_and_jsons\\weighted_graph.json', 'r') as file:
     graph = json.load(file)
