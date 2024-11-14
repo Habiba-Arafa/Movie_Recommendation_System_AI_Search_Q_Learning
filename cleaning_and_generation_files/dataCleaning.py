@@ -47,7 +47,7 @@ for index, row in df.iterrows():
 
     movie_vector[movie_title] = genre_values + vote_one_hot
 
-with open('csvs_and_jsons\\movie_vectors.json', 'w') as json_file:
+with open('csvs_and_jsons\\movie_vectors_smallerver.json', 'w') as json_file:
     json.dump(movie_vector, json_file, indent=4)
 print("tam benaga7")
 

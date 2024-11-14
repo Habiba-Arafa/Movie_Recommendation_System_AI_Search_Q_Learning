@@ -24,10 +24,7 @@ class Node:
             action,
             parent.path_cost + 1
         )
-    def __lt__(self, other):
-        # This compares two nodes based on their path_cost
-        return self.path_cost < other.path_cost
-
+    
 class MovieRecommender:
     def __init__(self, initial_state, user_id,movie):
         self.initial_state = initial_state
@@ -40,14 +37,14 @@ class MovieRecommender:
         vector_copy[index] = 1 - vector_copy[index]
         return vector_copy
 
-    def goal_test(self, current_vector):
+    def goal_test(self, node):
         for other_user, other_movies in data.items():
             if other_user == self.user_id:  
                 continue
             for movie, vector in other_movies.items():
-                if compute_similarity(current_vector, vector) >=0.8 and movie != self.movie: 
-                    return movie  
-        return None
+                if compute_similarity(node.state, vector) >=0.8 and movie != self.movie: 
+                    return movie , node.path_cost 
+        return None, None
 
     def result(self, state, action):
         return action 

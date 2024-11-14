@@ -36,7 +36,7 @@ def iddfs(problem, start_state):
         depth += 1
 
 user_id = 'user1'
-movie = 'A Christmas Carol'
+movie = 'Face/Off'
 initial_state = data[user_id][movie] 
 recommender = MovieRecommender(initial_state, user_id, movie)
 
