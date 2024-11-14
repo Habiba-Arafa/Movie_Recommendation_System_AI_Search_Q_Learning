@@ -36,7 +36,6 @@ def visualize_tree(tree_graph):
     plt.title("Tree Visualization of BFS Traversal")
     plt.show()
 
-# Main code
 user_id = 'user4'
 movie = 'Ast\u00e9rix aux Jeux Olympiques'
 initial_state = data[user_id][movie]
