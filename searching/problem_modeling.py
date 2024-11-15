@@ -1,4 +1,9 @@
+from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import json
+
+with open('csvs_and_jsons\\random_users.json', 'r') as file:
+    data = json.load(file)
 
 class Node:
     def __init__(self, state, parent, action, path_cost):
@@ -12,16 +17,13 @@ class Node:
         return cls(init_state, None, None, 0)
 
     @classmethod
-    def child(cls, parent, action, path_cost_increment=1):
+    def child(cls, problem, parent, action):
         return cls(
-            action,  
+            problem.result(parent.state, action),
             parent,
             action,
-            parent.path_cost + path_cost_increment  
+            parent.path_cost + 1
         )
-  
-    def __lt__(self, other):
-        return self.path_cost < other.path_cost
 class MovieRecommender:
     def __init__(self, initial_state, user_id,movie):
         self.initial_state = initial_state

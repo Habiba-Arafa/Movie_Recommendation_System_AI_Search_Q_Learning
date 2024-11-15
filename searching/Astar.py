@@ -1,6 +1,6 @@
 import heapq
 import json
-from problem_modeling import Node
+from Astar_problem_modeling import Node
 
 with open('csvs_and_jsons/random_connections_graph.json', 'r') as file:
     weighted_graph = json.load(file)
@@ -37,10 +37,10 @@ class AstarSearch:
         current_movie=node.state
         similarity=weighted_graph.get(self.movie, {}).get(current_movie, 1)  
         difference= 1- similarity 
-        if difference<= 0.1:
+        if difference<= 0.1: 
             return 0  
         else:
-            return 4  
+            return 4  #just a high h(n) to make sure that we will not choose this branch
 
 movie = "John Carter"  
 astar_search = AstarSearch(movie)
