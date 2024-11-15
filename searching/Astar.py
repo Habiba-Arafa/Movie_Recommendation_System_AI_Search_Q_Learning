@@ -1,6 +1,10 @@
 import heapq
 import json
 from Astar_problem_modeling import Node
+import random
+
+with open('csvs_and_jsons\\movie_vectors.json','r') as file:
+    movies= json.load(file)
 
 with open('csvs_and_jsons/random_connections_graph.json', 'r') as file:
     weighted_graph = json.load(file)
@@ -26,10 +30,13 @@ class AstarSearch:
             for neighbor, similarity in weighted_graph.get(current_movie,{}).items():
                 if neighbor not in explored:
                     print(f"Adding to Frontier:{neighbor} with Similarity:{similarity}")
+                    print()
                     child_node = Node.child(node, neighbor)  
                     heapq.heappush(frontier, (child_node.path_cost+self.h(child_node), child_node.path_cost, child_node))
             print(f"Frontier:{[node.state for _, _, node in frontier]}")
+            print()
             print(f"Explored:{explored}")
+            print('-------------------------------------------')
 
         return None, None 
 
@@ -42,8 +49,11 @@ class AstarSearch:
         else:
             return 4  #just a high h(n) to make sure that we will not choose this branch
 
-movie = "John Carter"  
-astar_search = AstarSearch(movie)
+
+start_movie = random.choice(list(weighted_graph.keys()))
+print(f'Currently getting recommendations for {start_movie}')
+print()
+astar_search = AstarSearch(start_movie)
 recommended_movie, cost=astar_search.search()
 if recommended_movie:
     print(f"Recommended Movie:{recommended_movie}, Cost: {cost}")
