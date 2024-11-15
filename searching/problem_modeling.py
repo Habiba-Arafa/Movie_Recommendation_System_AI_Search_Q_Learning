@@ -1,9 +1,4 @@
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-import json
-
-with open('csvs_and_jsons\\random_users.json', 'r') as file:
-    data = json.load(file)
 
 class Node:
     def __init__(self, state, parent, action, path_cost):
@@ -17,12 +12,12 @@ class Node:
         return cls(init_state, None, None, 0)
 
     @classmethod
-    def child(cls, problem, parent, action):
+    def child(cls, parent, action, path_cost_increment=1):
         return cls(
-            problem.result(parent.state, action),
+            action,  
             parent,
             action,
-            parent.path_cost + 1
+            parent.path_cost + path_cost_increment  
         )
     
 class MovieRecommender:
@@ -54,6 +49,3 @@ def compute_similarity(vector1, vector2):
         vector2 = np.array(vector2).reshape(1, -1)
         similarity = cosine_similarity(vector1, vector2)
         return similarity[0][0]
-
-
-
