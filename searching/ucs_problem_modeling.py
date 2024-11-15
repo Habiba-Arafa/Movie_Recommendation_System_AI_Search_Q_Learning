@@ -37,11 +37,10 @@ class MovieRecommender:
         self.initial_state = initial_state
         self.visited = {}
 
-    def goal_test(self, node, movie_name):
-        for neighbor, transition_cost in graph[movie_name].items():  
-            similarity = self.compute_similarity(movies[movie_name], movies[neighbor])
-            if similarity >= 0.9 and movies[movie_name] != movies[neighbor]:
-                return neighbor, node.path_cost  
+    def goal_test(self, node, original_movie, movie):
+        similarity = self.compute_similarity(movies[original_movie], movies[movie])
+        if similarity >= 0.7 and movies[original_movie] != movies[movie]:
+            return movie, node.path_cost  
         return None, None
 
     def compute_similarity(self,vector1, vector2):

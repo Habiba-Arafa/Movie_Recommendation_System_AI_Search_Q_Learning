@@ -18,7 +18,6 @@ def depth_first_tree_search(problem):
 
         if node.parent:
             parent_state = tuple(node.parent.state)
-            # Add parent node and edge to the graph
             net.add_node(str(parent_state), label=str(parent_state), color="lightgreen")
             net.add_edge(str(parent_state), str(state_tuple))
         recommended_movie, cost = problem.goal_test(node)
@@ -40,7 +39,7 @@ recommender = MovieRecommender(initial_state, user_id, movie)
 print("Search is starting...")
 recommended_movie, cost = depth_first_tree_search(recommender)
 if recommended_movie and cost:
-    print("Recommended movie:", recommended_movie, 'and the cost to get to that movie from the initial state is:', cost)
+    print("Recommended movie is", recommended_movie, 'and the cost is', cost)
 else:
     print("No similar preference found.")
 

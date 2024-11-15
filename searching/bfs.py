@@ -40,10 +40,10 @@ user_id = 'user4'
 movie = 'Ast\u00e9rix aux Jeux Olympiques'
 initial_state = data[user_id][movie]
 recommender = MovieRecommender(initial_state, user_id, movie)
-print("search is starting...")
+print("Search has started...")
 recommended_movie, cost = breadth_first_tree_search(recommender)
 
 if recommended_movie and cost:
-    print("Recommended movie:", recommended_movie, 'and the cost to get to that movie from the initial state is:', cost)
+    print("Recommended movie is", recommended_movie, 'and the cost is', cost)
 else:
     print("No similar preference found.")
