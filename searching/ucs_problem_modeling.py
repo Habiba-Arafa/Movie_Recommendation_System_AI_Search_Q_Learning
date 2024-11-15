@@ -9,23 +9,23 @@ with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies= json.load(file)
 
 class Node:
-    def __init__(self, state, parent, action, path_cost):
+    def __init__(self, parent,state,path_cost, movie_name):
         self.state = state
         self.parent = parent
-        self.action = action
         self.path_cost = path_cost
+        self.movie_name=movie_name
 
     @classmethod
-    def root(cls, init_state):
-        return cls(init_state, None, None, 0)
+    def root(cls,init_state,name):
+        return cls(None, init_state,0,name )
 
     @classmethod
-    def child(cls, problem, parent, action, cost):
+    def child(cls,parent, state, cost, movie_name):
         return cls(
-            problem.result(parent.state,action),
             parent,
-            action,
-            parent.path_cost + cost
+            state,
+            parent.path_cost + cost,
+            movie_name
         )
     
     def __lt__(self, other):

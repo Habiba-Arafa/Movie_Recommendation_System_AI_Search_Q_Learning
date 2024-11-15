@@ -13,6 +13,6 @@ def generate_random_users(num_users, movies, max_movies_per_user):
         users[user_id] = {movie: vector for movie, vector in selected_movies}
     return users
 
-random_users = generate_random_users(num_users=6, movies=data, max_movies_per_user=6)
-with open('csvs_and_jsons\\random_users.json', 'w') as json_file:
+random_users = generate_random_users(num_users=10, movies=data, max_movies_per_user=8)
+with open('csvs_and_jsons\\random_users_bigger.json', 'w') as json_file:
     json.dump(random_users, json_file, indent=4)

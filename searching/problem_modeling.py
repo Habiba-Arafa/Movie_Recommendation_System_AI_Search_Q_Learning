@@ -6,26 +6,29 @@ with open('csvs_and_jsons\\random_users.json', 'r') as file:
     data = json.load(file)
 
 class Node:
-    def __init__(self, state, parent, action, path_cost):
+    def __init__(self, state, parent, action, path_cost, movie_name):
         self.state = state
         self.parent = parent
         self.action = action
         self.path_cost = path_cost
+        self.movie_name=movie_name
 
     @classmethod
-    def root(cls, init_state):
-        return cls(init_state, None, None, 0)
+    def root(cls, init_state, movie_name):
+        return cls(init_state, None, None, 0, movie_name)
 
     @classmethod
-    def child(cls, problem, parent, action):
+    def child(cls, problem, parent, action, movie_name):
         return cls(
             problem.result(parent.state, action),
             parent,
             action,
-            parent.path_cost + 1
+            parent.path_cost + 1,
+            movie_name
         )
 class MovieRecommender:
-    def __init__(self, initial_state, user_id,movie):
+    def __init__(self,root,initial_state, user_id,movie):
+        self.root=root
         self.initial_state = initial_state
         self.user_id = user_id
         self.movie= movie
@@ -40,9 +43,8 @@ class MovieRecommender:
         for other_user, other_movies in data.items():
             if other_user == self.user_id:  
                 continue
-            for movie, vector in other_movies.items():
-                if compute_similarity(node.state, vector) >=0.8 and movie != self.movie: 
-                    return movie , node.path_cost 
+            if compute_similarity(node.state,self.root.state) >=0.8 and node.movie_name!= self.root.movie_name: 
+                return node.movie_name, node.path_cost 
         return None, None
 
     def result(self, state, action):

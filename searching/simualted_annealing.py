@@ -1,6 +1,7 @@
 from problem_modeling import compute_similarity
 import json 
 import random 
+import time
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     data = json.load(file)
@@ -9,7 +10,6 @@ def temperature_schedule(iteration, initial_temp=1.0, decay_rate=0.99, min_temp=
     temp = initial_temp * (decay_rate ** iteration)
     return max(temp, min_temp)
     
-visited={}
 def simulated_annealling(start_movie):
     current_similarity=0
     best_match_key=None
@@ -21,7 +21,6 @@ def simulated_annealling(start_movie):
         if delta<0:
             current_similarity=next_similarity
             best_match_key=random_sel_movie
-            visited[best_match_key]=current_similarity
             print("Best of the neighbors is ", best_match_key, " with similarity ",current_similarity)
             print("--------------------------------------------------------------------------------------")
             print()
@@ -30,18 +29,20 @@ def simulated_annealling(start_movie):
             if temperature_schedule(i) >= random_number:
                 current_similarity=next_similarity
                 best_match_key=random_sel_movie
-                visited[best_match_key]=current_similarity
                 print("Accepting the suboptimal neighbor ", best_match_key, " with probability ", temperature_schedule(i),"and similarity of", current_similarity)
                 print("--------------------------------------------------------------------------------------")
                 print()
         i+=1
-    # return max(visited, key=visited.get)
-    return best_match_key
+    return best_match_key, current_similarity
 
 start_movie = random.choice(list(data.keys()))
 print(f'Exploring recommendations for {start_movie}')
 print()
 initial_state = data[start_movie] 
-recommended_movie = simulated_annealling(start_movie)
-print("Best match for ",start_movie, " is ", recommended_movie," with similarity score of: ", visited[recommended_movie])
+start_time=time.time()
+recommended_movie, similarity= simulated_annealling(start_movie)
+end_time=time.time()
+time_taken=end_time-start_time
+print("Best match for",start_movie, "is", recommended_movie,"with a similarity of",similarity)
+print("Simmulated annealing took", round(time_taken,2),"seconds")
 

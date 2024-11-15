@@ -49,7 +49,6 @@ class AstarSearch:
         else:
             return 4  #just a high h(n) to make sure that we will not choose this branch
 
-
 start_movie = random.choice(list(weighted_graph.keys()))
 print(f'Currently getting recommendations for {start_movie}')
 print()
