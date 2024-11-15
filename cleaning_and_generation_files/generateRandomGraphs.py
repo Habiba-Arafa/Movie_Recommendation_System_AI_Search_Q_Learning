@@ -3,7 +3,7 @@ import json
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-with open('csvs_and_jsons\\movie_vectors2.json', 'r') as file:
+with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     data = json.load(file)
 
 def compute_similarity(vector1, vector2):

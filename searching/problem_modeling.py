@@ -20,9 +20,6 @@ class Node:
             parent.path_cost + path_cost_increment  
         )
     
-    def __lt__(self, other):
-        return self.path_cost < other.path_cost
-
 class MovieRecommender:
     def __init__(self, initial_state, user_id,movie):
         self.initial_state = initial_state

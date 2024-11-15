@@ -39,7 +39,7 @@ def hill_climbing_with_graph(graph, start_movie=None, max_iterations=1000):
 
 if __name__ == "__main__":
 
-    graph_path = "csvs_and_jsons//weighted_graph.json"
+    graph_path = "csvs_and_jsons//weighted_graph_smallerver.json"
     
     try:
         with open(graph_path, 'r') as file:

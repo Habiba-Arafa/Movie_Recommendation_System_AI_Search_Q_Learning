@@ -1,40 +1,38 @@
-from problem_modeling import MovieRecommender
 import json
 import heapq
-from problem_modeling import Node
+from ucs_problem_modeling import Node, MovieRecommender
+import random
 
-with open('csvs_and_jsons\\random_users.json', 'r') as file:
-    users = json.load(file)
 with open('csvs_and_jsons\\movie_vectors.json','r') as file:
     movies= json.load(file)
 with open('csvs_and_jsons\\weighted_graph.json', 'r') as file:
-    graph = json.load(file)
+    graph= json.load(file)
 
 priority_queue = []
-def uniform_cost_search(problem,movie_name):
-    visited = {}
-    heapq.heappush(priority_queue, [0, Node.root(problem.initial_state),movie_name])
+def uniform_cost_search(problem, movie_name):
+    heapq.heappush(priority_queue, [0, Node.root(problem.initial_state), movie_name])
     while priority_queue:
-        cost, node ,movie_name= heapq.heappop(priority_queue)
+        cost, node, movie_name = heapq.heappop(priority_queue)
+        print("The next movie is:",movie_name, "and the cost to get to this movie:", cost)
         state_tuple = tuple(node.state)
-        if state_tuple in visited and visited[state_tuple]<=cost:
+        if state_tuple in problem.visited and problem.visited[state_tuple] <= cost:
             continue
-        visited[state_tuple]=cost
-        recommended_movie = problem.goal_test(node.state)
-        if recommended_movie:
-            return recommended_movie
-        for name,cost in graph[movie_name].items():
-            total_cost = node.path_cost + cost
-            child_node = Node.child(problem, node, movies[name])
-            heapq.heappush(priority_queue, [total_cost, child_node ,name])
-    return None
+        problem.visited[state_tuple] = cost
+        recommended_movie, cost = problem.goal_test(node,movie_name)
+        if recommended_movie and cost:
+            return recommended_movie, cost
+        for name, transition_cost in graph[movie_name].items():
+            if name not in problem.visited:
+                child_node = Node.child(problem, node, movies[name], transition_cost)
+                child_cost = child_node.path_cost
+                heapq.heappush(priority_queue, [child_cost, child_node, name])
+    return None, None
 
-user_id  = 'user1'
-movie ='A Christmas Carol'
-initial_state = users[user_id][movie] 
-recommender = MovieRecommender(initial_state, user_id,movie)
-recommended_movie = uniform_cost_search(recommender,movie)
-if recommended_movie:
-    print("Recommended movie:", recommended_movie)
+start_movie = random.choice(list(graph.keys()))
+initial_state = movies[start_movie]
+recommender= MovieRecommender(initial_state)
+recommended, cost = uniform_cost_search(recommender, start_movie)
+if recommended and cost:
+    print("Best match for ", start_movie, " is ", recommended," with a path cost of: ", cost)
 else:
-    print("No similar preference found.")
+    print("No similar movies found")

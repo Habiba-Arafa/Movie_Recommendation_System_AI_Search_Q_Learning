@@ -1,0 +1,26 @@
+import random
+import json
+
+with open('csvs_and_jsons/movie_vectors.json', 'r') as file:
+    data = json.load(file)
+
+def generate_random_users_with_diversity(num_users, movies, max_movies_per_user, min_movies_per_user):
+    users = {}
+    movie_list = list(movies.items())
+    
+    for i in range(num_users):
+        user_id = f'user{i + 1}'
+        
+        num_movies = random.randint(min_movies_per_user, max_movies_per_user)
+        
+        selected_movies = random.sample(movie_list, num_movies)
+        
+        users[user_id] = {movie: vector for movie, vector in selected_movies}
+    
+    return users
+
+random_users = generate_random_users_with_diversity(num_users=10, movies=data, max_movies_per_user=10, min_movies_per_user=5)
+
+with open('csvs_and_jsons/random_user_genetics.json', 'w') as json_file:
+    json.dump(random_users, json_file, indent=4)
+
