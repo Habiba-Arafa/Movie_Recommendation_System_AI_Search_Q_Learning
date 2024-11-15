@@ -1,5 +1,3 @@
-import networkx as nx
-import matplotlib.pyplot as plt
 from problem_modeling import MovieRecommender
 import json
 from problem_modeling import Node
