@@ -5,7 +5,7 @@ import random
 with open('csvs_and_jsons/random_connections_graph.json', 'r') as file:
     weighted_graph = json.load(file)
 
-#Same as Astar, just return h(n) only instead of f(n)
+#Same as Astar, just use h(n) only instead of f(n)
 
 class GreedyBestFirstSearch:
     def __init__(self, movie):
