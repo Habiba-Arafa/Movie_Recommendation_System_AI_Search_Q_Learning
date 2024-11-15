@@ -1,9 +1,4 @@
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-import json
-
-with open('csvs_and_jsons\\random_users.json', 'r') as file:
-    data = json.load(file)
 
 class Node:
     def __init__(self, state, parent, action, path_cost):
@@ -17,15 +12,15 @@ class Node:
         return cls(init_state, None, None, 0)
 
     @classmethod
-    def child(cls, problem, parent, action):
+    def child(cls, parent, action, path_cost_increment=1):
         return cls(
-            problem.result(parent.state, action),
+            action,  
             parent,
             action,
-            parent.path_cost + 1
+            parent.path_cost + path_cost_increment  
         )
+    
     def __lt__(self, other):
-        # This compares two nodes based on their path_cost
         return self.path_cost < other.path_cost
 
 class MovieRecommender:
@@ -40,14 +35,14 @@ class MovieRecommender:
         vector_copy[index] = 1 - vector_copy[index]
         return vector_copy
 
-    def goal_test(self, current_vector):
+    def goal_test(self, node):
         for other_user, other_movies in data.items():
             if other_user == self.user_id:  
                 continue
             for movie, vector in other_movies.items():
-                if compute_similarity(current_vector, vector) >=0.8 and movie != self.movie: 
-                    return movie  
-        return None
+                if compute_similarity(node.state, vector) >=0.8 and movie != self.movie: 
+                    return movie , node.path_cost 
+        return None, None
 
     def result(self, state, action):
         return action 
@@ -57,6 +52,3 @@ def compute_similarity(vector1, vector2):
         vector2 = np.array(vector2).reshape(1, -1)
         similarity = cosine_similarity(vector1, vector2)
         return similarity[0][0]
-
-
-
