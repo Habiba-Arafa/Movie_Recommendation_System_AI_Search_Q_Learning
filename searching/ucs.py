@@ -13,9 +13,10 @@ def uniform_cost_search(problem, original_movie):
     heapq.heappush(priority_queue, [0, Node.root(problem.initial_state), original_movie])
     while priority_queue:
         cost, node, movie = heapq.heappop(priority_queue)
+        cosine_similarity =MovieRecommender.compute_similarity(movies[movie], movies[original_movie])
+        print("The next movie is:", movie,"with cosine similarity",round(cosine_similarity,2),"and the cost to get to this movie:", cost)
         print()
         print("----------------------------------------------------------------------------")
-        print("The next movie is:",movie, "and the cost to get to this movie:", cost)
         state_tuple = tuple(node.state)
         if state_tuple in problem.visited and problem.visited[state_tuple] <= cost:
             continue

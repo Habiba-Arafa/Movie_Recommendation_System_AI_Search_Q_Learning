@@ -39,10 +39,10 @@ class MovieRecommender:
 
     def goal_test(self, node, original_movie, movie):
         similarity = self.compute_similarity(movies[original_movie], movies[movie])
-        if similarity >= 0.7 and movies[original_movie] != movies[movie]:
+        if similarity >= 0.8 and movies[original_movie] != movies[movie]:
             return movie, node.path_cost  
         return None, None
-
+    @classmethod
     def compute_similarity(self,vector1, vector2):
             vector1 = np.array(vector1).reshape(1, -1)
             vector2 = np.array(vector2).reshape(1, -1)
