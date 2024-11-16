@@ -90,4 +90,3 @@ else:
 
 webbrowser.open("greedy_bfs_movie_recommendation.html")
 print('Time taken by GBFS is', round(run_time, 2), "seconds")
-webbrowser.open("greedy_bfs_movie_recommendation.html")
