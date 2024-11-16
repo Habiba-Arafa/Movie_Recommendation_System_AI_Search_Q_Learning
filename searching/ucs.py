@@ -5,6 +5,7 @@ import random
 import time
 from pyvis.network import Network
 from problem_modeling import find_path_to_goal
+import timeit
 
 with open('csvs_and_jsons\\movie_vectors.json','r') as file:
     movies= json.load(file)
@@ -41,12 +42,22 @@ def uniform_cost_search(problem, original_movie):
     net.show("html_files\\ucs_tree.html")  
     return None, None
 
+def run_ucs():
+    uniform_cost_search(recommender, start_movie)
 
-start_movie = random.choice(list(graph.keys()))
+def ucs_time_calculation():
+    number_of_times=5
+    time_of_ucs = timeit.timeit(run_ucs, globals=globals(), number=number_of_times)
+    ucs_average=time_of_ucs/number_of_times
+    return ucs_average
+
+# start_movie = random.choice(list(graph.keys()))
+
+start_movie='The Emperor\'s New Groove'
 initial_state = movies[start_movie]
 recommender= MovieRecommender(initial_state)
 start_time= time.time()
-recommended, cost, goal_node= uniform_cost_search(recommender, start_movie)
+recommended, cost, goal_node = uniform_cost_search(recommender, start_movie)
 end_time= time.time()
 time_taken= end_time- start_time
 if recommended and cost:

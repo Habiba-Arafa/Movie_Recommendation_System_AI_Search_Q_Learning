@@ -2,9 +2,9 @@ from problem_modeling import MovieRecommender,Node,find_path_to_goal
 import json
 from collections import deque
 import time
+import timeit
 from pyvis.network import Network
 import random
-import webbrowser
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -51,9 +51,11 @@ def breadth_first_tree_search(problem, movie):
     net.show("html_files\\bfs_tree.html")  # Visualize and save the tree as an HTML file
     return None
 
+
 # movie='Incendies'
-movie = random.choice(list(movies.keys()))
+# movie = random.choice(list(movies.keys()))
 # movie="Deep Rising"
+movie='The Emperor\'s New Groove'
 initial_state = movies[movie]
 root= Node.root(initial_state,movie)
 recommender = MovieRecommender(root,initial_state, movie)
@@ -69,6 +71,14 @@ if recommended_movie and cost:
 else:
     print("No similar preference found.")
 print()
-print('Time taken by BFS is',round(run_time,2), "seconds")
 
-webbrowser.open("bfs_tree.html")
+def run_bfs():
+    breadth_first_tree_search(recommender, movie)
+
+def bfs_time_calculation():
+    number_of_times=5
+    time_of_bfs = timeit.timeit(run_bfs, globals=globals(), number=number_of_times)
+    bfs_average=time_of_bfs/number_of_times
+    return bfs_average
+
+

@@ -3,6 +3,7 @@ from problem_modeling import MovieRecommender, Node, find_path_to_goal
 from pyvis.network import Network
 import random
 import time
+import timeit
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -49,6 +50,15 @@ def depth_first_tree_search(problem, movie):
 
     net.show("html_files\\dfs_tree.html")  # Visualize and save the tree as an HTML file
     return None, None
+
+def run_dfs():
+    depth_first_tree_search(recommender, movie)
+
+def dfs_time_calculation():
+    number_of_times=5
+    time_of_dfs = timeit.timeit(run_dfs, globals=globals(), number=number_of_times)
+    dfs_average=time_of_dfs/number_of_times
+    return dfs_average
 
 movie='The Emperor\'s New Groove'
 initial_state = movies[movie]
