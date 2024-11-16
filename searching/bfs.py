@@ -46,12 +46,15 @@ def breadth_first_tree_search(problem, movie):
             elif parent_movie_name==None and child_name!=None:
                 net.add_node(child_name, label=child_name, color="lightblue")
                 net.add_edge(str(node.state), child_name)
+            else:
+                net.add_node(str(child_node.state), label=str(child_node.state), color="lightblue")
+                net.add_edge(str(node.state), str(child_node.state))
+
     net.show("html_files\\bfs_tree.html")  # Visualize and save the tree as an HTML file
     return None
 
+movie='Incendies'
 
-movie = random.choice(list(movies.keys()))
-# movie="Mission: Impossible - Rogue Nation"
 initial_state = movies[movie]
 root= Node.root(initial_state,movie)
 recommender = MovieRecommender(root,initial_state, movie)

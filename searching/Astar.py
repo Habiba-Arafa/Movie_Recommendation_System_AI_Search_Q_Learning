@@ -67,7 +67,7 @@ class AstarSearch:
         return 1-similarity  
 
     def visualize_network(self):
-        self.network.show("astar_movie_recommendation.html")
+        self.network.show("html_files\\astar_movie_recommendation.html")
 
 start_movie = random.choice(list(weighted_graph.keys()))
 print(f'Currently getting recommendations for {start_movie}\n')

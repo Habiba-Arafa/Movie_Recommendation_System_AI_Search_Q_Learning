@@ -16,6 +16,8 @@ def uniform_cost_search(problem, original_movie):
     heapq.heappush(priority_queue, [0, Node.root(problem.initial_state,original_movie), original_movie])
     net.add_node(original_movie, label=original_movie, color="lightgreen")
     while priority_queue:
+        frontier_movies=[item[2] for item in priority_queue]
+        print(f"Frontier currently has {frontier_movies}")
         cost, node, movie = heapq.heappop(priority_queue)
         cosine_similarity = MovieRecommender.compute_similarity(movies[movie], movies[original_movie])
         print("The next movie is:", movie,"with cosine similarity",round(cosine_similarity,2),"and the cost to get to this movie:", cost)

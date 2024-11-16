@@ -2,6 +2,7 @@ import json
 from problem_modeling import MovieRecommender, Node
 from pyvis.network import Network
 import random
+import time
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -49,16 +50,18 @@ def depth_first_tree_search(problem, movie):
     net.show("html_files\\dfs_tree.html")  # Visualize and save the tree as an HTML file
     return None, None
 
-movie = '...E tu vivrai nel terrore! L\'aldil\u00e0'
-# movie='Tarnation'
-# movie = random.choice(list(movies.keys()))
-
+movie='The Emperor\'s New Groove'
 initial_state = movies[movie]
 root= Node.root(initial_state,movie)
 recommender = MovieRecommender(root,initial_state, movie)
 print("Search is starting...")
+start_time=time.time()
 recommended_movie, cost = depth_first_tree_search(recommender, movie)
+end_time=time.time()
+time_taken=end_time-start_time
+
 if recommended_movie and cost:
     print("Recommended movie is", recommended_movie, 'and the cost is', cost)
 else:
     print("No similar preference found.")
+print("Time taken by the DFS algorithm", round(time_taken,2),"seconds")

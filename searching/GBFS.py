@@ -74,7 +74,7 @@ class GreedyBFS:
         return 1-similarity  
 
     def visualize_network(self):
-        self.network.show("greedy_bfs_movie_recommendation.html")
+        self.network.show("html_files\\greedy_bfs_movie_recommendation.html")
 start_movie =random.choice(list(weighted_graph.keys()))
 print(f'\nStarting recommendation search for movie: {start_movie}\n')
 start_time = time.time()
