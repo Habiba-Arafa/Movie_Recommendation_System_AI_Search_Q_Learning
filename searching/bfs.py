@@ -4,6 +4,7 @@ from problem_modeling import Node
 from collections import deque
 import time
 from pyvis.network import Network
+import random
 
 with open('csvs_and_jsons\\random_users_bigger.json', 'r') as file:
     data = json.load(file)
@@ -30,6 +31,7 @@ def breadth_first_tree_search(problem, movie):
             return recommended_movie, cost
         for movie_index in range(len(problem.initial_state)):
             new_state = problem.actions(node.state, movie_index)
+            # print("new state: ", new_state)
             child_name=None
             for name, vector in movies.items():
                 if vector==new_state:
@@ -40,18 +42,22 @@ def breadth_first_tree_search(problem, movie):
             if child_name==None and parent_movie_name!=None:
                 net.add_node("no match", label="no match", color="lightblue")
                 net.add_edge(parent_movie_name, "no match")
-            elif parent_movie_name!=None:
+            elif parent_movie_name!=None and child_name!=None:
                 net.add_node(child_name, label=child_name, color="lightblue")
                 net.add_edge(parent_movie_name, child_name)
-
+            elif parent_movie_name==None and child_name!=None:
+                net.add_node(child_name, label=child_name, color="lightblue")
+                net.add_edge("no match", child_name)
     net.show("bfs_tree.html")  # Visualize and save the tree as an HTML file
     return None
 
-user_id = 'user1'
-movie ='Albert Nobbs'
-initial_state = data[user_id][movie]
+# user_id = 'user1'
+# movie ='MacGruber'
+# initial_state = data[user_id][movie]
+movie = random.choice(list(movies.keys()))
+initial_state = movies[movie]
 root= Node.root(initial_state,movie)
-recommender = MovieRecommender(root,initial_state, user_id, movie)
+recommender = MovieRecommender(root,initial_state, movie)
 print("Search has started...")
 start_time = time.time()
 recommended_movie, cost = breadth_first_tree_search(recommender,movie)

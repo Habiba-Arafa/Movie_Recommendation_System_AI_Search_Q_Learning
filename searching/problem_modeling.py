@@ -27,10 +27,9 @@ class Node:
             movie_name
         )
 class MovieRecommender:
-    def __init__(self,root,initial_state, user_id,movie):
+    def __init__(self,root,initial_state,movie):
         self.root=root
         self.initial_state = initial_state
-        self.user_id = user_id
         self.movie= movie
         self.visited = set()
 
@@ -40,11 +39,9 @@ class MovieRecommender:
         return vector_copy
 
     def goal_test(self, node):
-        for other_user, other_movies in data.items():
-            if other_user == self.user_id:  
-                continue
-            if compute_similarity(node.state,self.root.state) >=0.8 and node.movie_name!= self.root.movie_name: 
-                return node.movie_name, node.path_cost 
+            # if node.movie_name==other_movies:
+        if compute_similarity(node.state,self.root.state) >=0.80 and node.movie_name!= self.root.movie_name: 
+            return node.movie_name, node.path_cost 
         return None, None
 
     def result(self, state, action):
