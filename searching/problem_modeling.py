@@ -40,8 +40,8 @@ class MovieRecommender:
 
     def goal_test(self, node):
         if compute_similarity(node.state,self.root.state) >=0.80 and node.movie_name!= self.root.movie_name: 
-            return node.movie_name, node.path_cost 
-        return None, None
+            return node.movie_name, node.path_cost, node
+        return None, None, None
 
     def result(self, state, action):
         return action 
@@ -51,3 +51,14 @@ def compute_similarity(vector1, vector2):
         vector2 = np.array(vector2).reshape(1, -1)
         similarity = cosine_similarity(vector1, vector2)
         return similarity[0][0]
+
+def find_path_to_goal(node):
+    path = []
+    while node is not None:
+        if node.movie_name== None:
+            path.append(str(node.state))
+        else:
+            path.append(node.movie_name)  
+        node = node.parent  
+    path.reverse() 
+    return path
