@@ -3,7 +3,7 @@ import json
 import random
 from pyvis.network import Network
 import webbrowser
-
+import time
 # Load movie data and weighted graph data
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -91,11 +91,15 @@ class GreedyBFS:
 
 start_movie = random.choice(list(weighted_graph.keys()))
 print(f'\nStarting recommendation search for movie: {start_movie}\n')
-
+start_time = time.time()
 greedy_bfs = GreedyBFS(start_movie)
+start_time = time.time()
 recommended_movie = greedy_bfs.search()
+end_time = time.time()
+run_time = end_time-start_time
 if recommended_movie:
     print(f"\nRecommended Movie: {recommended_movie}")
 else:
     print("\nNo recommendation found.")
 webbrowser.open("greedy_bfs_movie_recommendation.html")
+print('Time taken by GBFS is',round(run_time,2), "seconds")

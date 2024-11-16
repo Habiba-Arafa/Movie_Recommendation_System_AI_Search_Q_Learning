@@ -74,11 +74,17 @@ class AstarSearch:
 
 start_movie = random.choice(list(weighted_graph.keys()))
 print(f'Currently getting recommendations for {start_movie}\n')
+start_time = time.time()
+
 astar_search = AstarSearch(start_movie)
+end_time = time.time()
+run_time = end_time-start_time
 recommended_movie, cost = astar_search.search()
+
 if recommended_movie:
     print(f"Recommended Movie: {recommended_movie}, Cost: {cost}")
 else:
     print("No recommendation found.")
-
+print('Time taken by BFS is',round(run_time,2), "seconds")
 webbrowser.open("astar_movie_recommendation.html")
+print('Time taken by astar is',round(run_time,2), "seconds")

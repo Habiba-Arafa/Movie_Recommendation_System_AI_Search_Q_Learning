@@ -5,6 +5,7 @@ from collections import deque
 import time
 from pyvis.network import Network
 import random
+import webbrowser
 
 with open('csvs_and_jsons\\random_users_bigger.json', 'r') as file:
     data = json.load(file)
@@ -69,3 +70,5 @@ else:
     print("No similar preference found.")
 print()
 print('Time taken by BFS is',round(run_time,2), "seconds")
+
+webbrowser.open("bfs_tree.html")
