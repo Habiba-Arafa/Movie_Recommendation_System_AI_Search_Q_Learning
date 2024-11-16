@@ -7,9 +7,6 @@ from pyvis.network import Network
 import random
 import webbrowser
 
-with open('csvs_and_jsons\\random_users_bigger.json', 'r') as file:
-    data = json.load(file)
-
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
 
@@ -41,21 +38,20 @@ def breadth_first_tree_search(problem, movie):
             frontier.append(child_node)
             parent_movie_name=node.movie_name
             if child_name==None and parent_movie_name!=None:
-                net.add_node("no match", label="no match", color="lightblue")
-                net.add_edge(parent_movie_name, "no match")
+                net.add_node(str(child_node.state), label=str(child_node.state), color="lightblue")
+                net.add_edge(parent_movie_name, str(child_node.state))
             elif parent_movie_name!=None and child_name!=None:
                 net.add_node(child_name, label=child_name, color="lightblue")
                 net.add_edge(parent_movie_name, child_name)
             elif parent_movie_name==None and child_name!=None:
                 net.add_node(child_name, label=child_name, color="lightblue")
-                net.add_edge("no match", child_name)
+                net.add_edge(str(node.state), child_name)
     net.show("bfs_tree.html")  # Visualize and save the tree as an HTML file
     return None
 
-# user_id = 'user1'
-# movie ='MacGruber'
-# initial_state = data[user_id][movie]
+
 movie = random.choice(list(movies.keys()))
+# movie="Mission: Impossible - Rogue Nation"
 initial_state = movies[movie]
 root= Node.root(initial_state,movie)
 recommender = MovieRecommender(root,initial_state, movie)
