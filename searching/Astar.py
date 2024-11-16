@@ -68,7 +68,6 @@ class AstarSearch:
 
     def visualize_network(self):
         self.network.show("astar_movie_recommendation.html")
-        print("Network visualization saved as 'astar_movie_recommendation.html'. You can open this file in your browser.")
 
 start_movie = random.choice(list(weighted_graph.keys()))
 print(f'Currently getting recommendations for {start_movie}\n')

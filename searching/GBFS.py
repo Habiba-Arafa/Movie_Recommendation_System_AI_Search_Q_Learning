@@ -31,8 +31,8 @@ class GreedyBFS:
     def search(self):
         start_state = self.movie
         print(f"Starting the search for movie: {start_state}")
-        frontier = [(self.h(start_state), start_state)]  
-        explored = set()  
+        frontier=[(self.h(start_state), start_state)]   #h(n)
+        explored=set()  
         all_nodes_added = set([start_state])
         self.network.add_node(start_state, label=f"{start_state} (h(n)={self.h(start_state)})", color="lightblue")
         print(f"Added start movie {start_state} to the network visualization.")
