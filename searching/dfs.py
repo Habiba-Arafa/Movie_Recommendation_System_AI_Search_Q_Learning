@@ -1,5 +1,5 @@
 import json
-from problem_modeling import MovieRecommender, Node
+from problem_modeling import MovieRecommender, Node, find_path_to_goal
 from pyvis.network import Network
 import random
 import time
@@ -20,10 +20,10 @@ def depth_first_tree_search(problem, movie):
         problem.visited.add(state_tuple)
         if node.movie_name!=None:
             print(f"Popping {node.movie_name}")
-        recommended_movie, cost = problem.goal_test(node)
-        if recommended_movie and cost:
+        recommended_movie, cost , goal_node= problem.goal_test(node)
+        if recommended_movie and cost and goal_node:
             net.show("html_files\\dfs_tree.html")  
-            return recommended_movie, cost
+            return recommended_movie, cost, goal_node
         for movie_index in range(len(problem.initial_state)):
             new_state = problem.actions(node.state, movie_index)
             child_name=None
@@ -56,12 +56,14 @@ root= Node.root(initial_state,movie)
 recommender = MovieRecommender(root,initial_state, movie)
 print("Search is starting...")
 start_time=time.time()
-recommended_movie, cost = depth_first_tree_search(recommender, movie)
+recommended_movie, cost , node= depth_first_tree_search(recommender, movie)
 end_time=time.time()
 time_taken=end_time-start_time
 
 if recommended_movie and cost:
     print("Recommended movie is", recommended_movie, 'and the cost is', cost)
+    print("Path to goal:", " -> ".join(find_path_to_goal(node)))
+
 else:
     print("No similar preference found.")
 print("Time taken by the DFS algorithm", round(time_taken,2),"seconds")

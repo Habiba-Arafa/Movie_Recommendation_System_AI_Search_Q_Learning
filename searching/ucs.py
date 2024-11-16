@@ -4,6 +4,7 @@ from ucs_problem_modeling import Node, MovieRecommender
 import random
 import time
 from pyvis.network import Network
+from problem_modeling import find_path_to_goal
 
 with open('csvs_and_jsons\\movie_vectors.json','r') as file:
     movies= json.load(file)
@@ -27,10 +28,10 @@ def uniform_cost_search(problem, original_movie):
         if state_tuple in problem.visited and problem.visited[state_tuple] <= cost:
             continue
         problem.visited[state_tuple] = cost
-        recommended_movie, cost = problem.goal_test(node,original_movie,movie)
-        if recommended_movie and cost:
+        recommended_movie, cost, goal_node = problem.goal_test(node,original_movie,movie)
+        if recommended_movie and cost and goal_node:
             net.show("html_files\\ucs_tree.html")  
-            return recommended_movie, cost
+            return recommended_movie, cost, goal_node
         for name, transition_cost in graph[movie].items():
             child_node = Node.child(node, movies[name], transition_cost, name)
             child_cost = child_node.path_cost
@@ -45,11 +46,12 @@ start_movie = random.choice(list(graph.keys()))
 initial_state = movies[start_movie]
 recommender= MovieRecommender(initial_state)
 start_time= time.time()
-recommended, cost = uniform_cost_search(recommender, start_movie)
+recommended, cost, goal_node= uniform_cost_search(recommender, start_movie)
 end_time= time.time()
 time_taken= end_time- start_time
 if recommended and cost:
     print("Best match for", start_movie, "is", recommended," with a path cost of", cost)
+    print("Path to goal:", " -> ".join(find_path_to_goal(goal_node)))
 else:
     print("No similar movies found")
 

@@ -1,6 +1,5 @@
-from problem_modeling import MovieRecommender
+from problem_modeling import MovieRecommender,Node,find_path_to_goal
 import json
-from problem_modeling import Node
 from collections import deque
 import time
 from pyvis.network import Network
@@ -23,13 +22,12 @@ def breadth_first_tree_search(problem, movie):
         problem.visited.add(state_tuple)
         if node.movie_name!=None:
             print(f"Popping {node.movie_name}")
-        recommended_movie, cost = problem.goal_test(node)
-        if recommended_movie and cost:
+        recommended_movie, cost, goal_node= problem.goal_test(node)
+        if recommended_movie and cost and goal_node:
             net.show("html_files\\bfs_tree.html")  
-            return recommended_movie, cost
+            return recommended_movie, cost, goal_node
         for movie_index in range(len(problem.initial_state)):
             new_state = problem.actions(node.state, movie_index)
-            # print("new state: ", new_state)
             child_name=None
             for name, vector in movies.items():
                 if vector==new_state:
@@ -53,18 +51,21 @@ def breadth_first_tree_search(problem, movie):
     net.show("html_files\\bfs_tree.html")  # Visualize and save the tree as an HTML file
     return None
 
-movie='Incendies'
-
+# movie='Incendies'
+movie = random.choice(list(movies.keys()))
+# movie="Deep Rising"
 initial_state = movies[movie]
 root= Node.root(initial_state,movie)
 recommender = MovieRecommender(root,initial_state, movie)
 print("Search has started...")
 start_time = time.time()
-recommended_movie, cost = breadth_first_tree_search(recommender,movie)
+recommended_movie, cost, goal_node= breadth_first_tree_search(recommender,movie)
 end_time = time.time()
 run_time = end_time-start_time
 if recommended_movie and cost:
     print("Recommended movie is", recommended_movie, 'and the cost is', cost)
+    print("Path to goal:", " -> ".join(find_path_to_goal(goal_node)))
+
 else:
     print("No similar preference found.")
 print()
