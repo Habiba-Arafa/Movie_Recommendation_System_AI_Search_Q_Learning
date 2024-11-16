@@ -77,5 +77,6 @@ if recommended_movie and cost:
 else:
     print("No similar preference found.")
 print("Time taken by the DFS algorithm", round(time_taken,2),"seconds")
-
-# webbrowser.open("html_files\\dfs_tree.html")
+=======
+webbrowser.open("html_files\\dfs_tree.html")
+>>>>>>> Stashed changes
