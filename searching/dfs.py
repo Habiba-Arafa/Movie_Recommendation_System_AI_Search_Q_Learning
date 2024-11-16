@@ -2,11 +2,10 @@ import json
 from problem_modeling import MovieRecommender, Node, find_path_to_goal
 from pyvis.network import Network
 import random
-<<<<<<< Updated upstream
 import time
-=======
+
 import webbrowser
->>>>>>> Stashed changes
+
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -70,8 +69,7 @@ if recommended_movie and cost:
 
 else:
     print("No similar preference found.")
-<<<<<<< Updated upstream
 print("Time taken by the DFS algorithm", round(time_taken,2),"seconds")
-=======
+
 webbrowser.open("html_files\\dfs_tree.html")
->>>>>>> Stashed changes
+
