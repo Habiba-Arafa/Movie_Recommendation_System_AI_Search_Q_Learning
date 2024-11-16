@@ -1,58 +1,101 @@
 import heapq
 import json
-from Astar_problem_modeling import Node
 import random
+from pyvis.network import Network
+import webbrowser
+
+# Load movie data and weighted graph data
+with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
+    movies = json.load(file)
 with open('csvs_and_jsons/random_connections_graph.json', 'r') as file:
     weighted_graph = json.load(file)
 
-#Same as Astar, just use h(n) only instead of f(n)
-
-class GreedyBestFirstSearch:
+class GreedyBFS:
     def __init__(self, movie):
         self.movie = movie  
-    
-    def search(self):
-        start_state = self.movie  
-        start_node = Node.root(start_state)
-        frontier = [(self.h(start_node), start_node)] 
-        explored = set() 
-        while frontier:
-            _, node = heapq.heappop(frontier) 
-            current_movie = node.state
-            if current_movie in explored:
-                continue
-            explored.add(current_movie)
-            if current_movie != self.movie and node.path_cost > 1:
-                print(f"Expanding: {current_movie}, Path Cost: {node.path_cost}")
-                return current_movie, node.path_cost
-            
-            for neighbor, similarity in weighted_graph.get(current_movie, {}).items():
-                if neighbor not in explored:
-                    print(f"Adding to Frontier: {neighbor} with Similarity: {similarity}")
-                    print()
-                    child_node = Node.child(node, neighbor)
-                    heapq.heappush(frontier, (self.h(child_node), child_node))
-            print(f"Frontier: {[node.state for _, node in frontier]}")
-            print()
-            print(f"Explored: {explored}")
-            print('----------------------------------------------')
-        return None, None 
+        self.network = Network(height="800px", width="100%", notebook=True) 
+        self.network.set_options("""
+        var options = {
+            "physics": {
+                "enabled": true,
+                "barnesHut": {
+                    "gravitationalConstant": -20000,
+                    "centralGravity": 0.3,
+                    "springLength": 95,
+                    "springConstant": 0.04
+                },
+                "minVelocity": 0.75
+            }
+        }
+        """)
 
-    def h(self, node):
-        current_movie = node.state
-        similarity = weighted_graph.get(self.movie, {}).get(current_movie, 1)  
-        difference = 1 - similarity  
-        if difference <= 0.1: 
-            return 0  
-        else:
-            return 4  
+    def search(self):
+        start_state = self.movie
+        print(f"Starting the search for movie: {start_state}")
+        frontier = [(self.h(start_state), start_state)]  
+        explored = set()  
+        all_nodes_added = set([start_state])
+
+        self.network.add_node(start_state, label=f"{start_state} (h(n)={self.h(start_state)})", color="lightblue")
+        print(f"Added start movie {start_state} to the network visualization.")
+
+        while frontier:
+            print("\n---\nCurrent Frontier:", [node[1] for node in frontier])
+            print("Explored Nodes:", explored)
+
+            _, current_movie = heapq.heappop(frontier)
+            print(f"Exploring movie: {current_movie} with heuristic h(n): {self.h(current_movie)}")
+
+            if current_movie in explored:
+                print(f"Movie {current_movie} already explored. Skipping.")
+                continue
+
+            explored.add(current_movie)
+
+            
+            if current_movie != self.movie:
+                print(f"Found a recommendation: {current_movie}")
+                self.visualize_network()  
+                return current_movie  
+
+            print(f"Expanding neighbors of movie {current_movie}...")
+            neighbors = weighted_graph.get(current_movie, {}).items()
+            expanded_neighbors = 0  
+            sorted_neighbors = sorted(neighbors, key=lambda x: x[1], reverse=True)
+
+            max_expansion = 5  
+            for neighbor, similarity in sorted_neighbors[:max_expansion]:
+                print(f"Neighbor: {neighbor} with similarity: {similarity}")
+                if neighbor not in explored and neighbor not in all_nodes_added:
+                    print(f"Adding neighbor {neighbor} to the frontier with heuristic h(n): {self.h(neighbor)}")
+                    heapq.heappush(frontier, (self.h(neighbor), neighbor)) 
+                    if neighbor not in self.network.nodes:
+                        self.network.add_node(neighbor, label=f"{neighbor} (h(n)={self.h(neighbor)})", color="lightblue")
+                        all_nodes_added.add(neighbor)
+                        print(f"Added {neighbor} to the network visualization.")
+                    self.network.add_edge(current_movie, neighbor, value=similarity)
+                    expanded_neighbors += 1
+                    print(f"Added edge from {current_movie} to {neighbor} with similarity value: {similarity}")
+
+            print(f"Expanded {expanded_neighbors} neighbors for {current_movie}.")
+            self.visualize_network()
+
+        return None 
+
+    def h(self, movie):
+        similarity = weighted_graph.get(self.movie, {}).get(movie, 1)
+        return 1 - similarity  
+    def visualize_network(self):
+        self.network.show("greedy_bfs_movie_recommendation.html")
+        print("Graph visualization updated. You can view the latest state in 'greedy_bfs_movie_recommendation.html'.")
 
 start_movie = random.choice(list(weighted_graph.keys()))
-print(f'Currently getting recommendations for {start_movie}')
-print()
-gbfs = GreedyBestFirstSearch(start_movie)
-recommended_movie, cost = gbfs.search()
+print(f'\nStarting recommendation search for movie: {start_movie}\n')
+
+greedy_bfs = GreedyBFS(start_movie)
+recommended_movie = greedy_bfs.search()
 if recommended_movie:
-    print(f"Recommended Movie: {recommended_movie}, Cost: {cost}")
+    print(f"\nRecommended Movie: {recommended_movie}")
 else:
-    print("No recommendation found.")
+    print("\nNo recommendation found.")
+webbrowser.open("greedy_bfs_movie_recommendation.html")

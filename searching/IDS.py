@@ -2,9 +2,9 @@ import numpy as np
 import json
 from sklearn.metrics.pairwise import cosine_similarity
 from IDS_problem_modeling import MovieRecommender, Node
-
 with open('csvs_and_jsons\\random_users.json', 'r') as file:
     data = json.load(file)
+
 
 def dls(problem, node, depth, visited):
     print(f"Depth {depth}: Current Movie: {node.movie_name}")  
