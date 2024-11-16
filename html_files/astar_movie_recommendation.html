@@ -88,8 +88,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "lightblue", "id": "November", "label": "November (h(n)=1)", "shape": "dot"}, {"color": "lightblue", "id": "Battleship", "label": "Battleship\n h(n)=0.158113883008419 g(n)=0.841886116991581 f(n)=1.0", "shape": "dot"}, {"color": "lightblue", "id": "Get on the Bus", "label": "Get on the Bus\n h(n)=1 g(n)=1.841886116991581 f(n)=2.841886116991581", "shape": "dot"}, {"color": "lightblue", "id": "Cinderella Man", "label": "Cinderella Man\n h(n)=1 g(n)=1.841886116991581 f(n)=2.841886116991581", "shape": "dot"}]);
-                  edges = new vis.DataSet([{"from": "November", "to": "Battleship", "value": 0.841886116991581}, {"from": "Battleship", "to": "Get on the Bus", "value": 1.0}, {"from": "Battleship", "to": "Cinderella Man", "value": 1.0}]);
+                  nodes = new vis.DataSet([{"color": "lightblue", "id": "The Emperor\u0027s New Groove", "label": "The Emperor\u0027s New Groove (h(n)=1)", "shape": "dot"}, {"color": "lightblue", "id": "The Conspirator", "label": "The Conspirator\n h(n)=0 g(n)=1.0 f(n)=1.0", "shape": "dot"}, {"color": "lightblue", "id": "Martin Lawrence Live: Runteldat", "label": "Martin Lawrence Live: Runteldat\n h(n)=1 g(n)=2.0 f(n)=3.0", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "The Emperor\u0027s New Groove", "to": "The Conspirator", "value": 1.0}, {"from": "The Conspirator", "to": "Martin Lawrence Live: Runteldat", "value": 1.0}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });

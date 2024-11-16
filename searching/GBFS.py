@@ -4,6 +4,8 @@ import random
 from pyvis.network import Network
 import webbrowser
 import time
+import timeit
+
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
 with open('csvs_and_jsons/random_connections_graph.json', 'r') as file:
@@ -75,7 +77,18 @@ class GreedyBFS:
 
     def visualize_network(self):
         self.network.show("html_files\\greedy_bfs_movie_recommendation.html")
-start_movie =random.choice(list(weighted_graph.keys()))
+
+def run_gbfs():
+    GreedyBFS(start_movie)
+
+def gbfs_time_calculation():
+    number_of_times=5
+    time_of_greedybfs = timeit.timeit(run_gbfs, globals=globals(), number=number_of_times)
+    greedy_bfs_average=time_of_greedybfs/number_of_times
+    return greedy_bfs_average
+
+# start_movie =random.choice(list(weighted_graph.keys()))
+start_movie='The Emperor\'s New Groove'
 print(f'\nStarting recommendation search for movie: {start_movie}\n')
 start_time = time.time()
 greedy_bfs = GreedyBFS(start_movie)
@@ -88,6 +101,5 @@ if recommended_movies:
 else:
     print("\nNo recommendations found.")
 
-webbrowser.open("greedy_bfs_movie_recommendation.html")
+# webbrowser.open("html_files\\greedy_bfs_movie_recommendation.html")
 print('Time taken by GBFS is', round(run_time, 2), "seconds")
-webbrowser.open("greedy_bfs_movie_recommendation.html")

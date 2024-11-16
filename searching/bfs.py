@@ -5,6 +5,7 @@ import time
 import timeit
 from pyvis.network import Network
 import random
+import webbrowser
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -55,6 +56,7 @@ def breadth_first_tree_search(problem, movie):
 # movie='Incendies'
 # movie = random.choice(list(movies.keys()))
 # movie="Deep Rising"
+
 movie='The Emperor\'s New Groove'
 initial_state = movies[movie]
 root= Node.root(initial_state,movie)
@@ -71,6 +73,8 @@ if recommended_movie and cost:
 else:
     print("No similar preference found.")
 print()
+
+# webbrowser.open("html_files\\bfs_tree.html")
 
 def run_bfs():
     breadth_first_tree_search(recommender, movie)

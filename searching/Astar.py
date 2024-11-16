@@ -4,10 +4,11 @@ import random
 from pyvis.network import Network
 import time
 import webbrowser
+import timeit
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
-with open('csvs_and_jsons/random_connections_graph.json', 'r') as file:
+with open('csvs_and_jsons\\random_connections_graph.json', 'r') as file:
     weighted_graph = json.load(file)
 
 class AstarSearch:
@@ -69,7 +70,17 @@ class AstarSearch:
     def visualize_network(self):
         self.network.show("html_files\\astar_movie_recommendation.html")
 
-start_movie = random.choice(list(weighted_graph.keys()))
+def run_astar():
+    AstarSearch(start_movie)
+
+def astar_time_calculation():
+    number_of_times=5
+    time_of_astar = timeit.timeit(run_astar, globals=globals(), number=number_of_times)
+    astar_average=time_of_astar/number_of_times
+    return astar_average
+
+# start_movie = random.choice(list(weighted_graph.keys()))
+start_movie='The Emperor\'s New Groove'
 print(f'Currently getting recommendations for {start_movie}\n')
 start_time = time.time()
 astar_search = AstarSearch(start_movie)
@@ -82,4 +93,4 @@ else:
     print("No recommendation found.")
 
 print('Time taken by A* is', round(run_time, 2), "seconds")
-webbrowser.open("astar_movie_recommendation.html")
+# webbrowser.open("html_files\\astar_movie_recommendation.html")
