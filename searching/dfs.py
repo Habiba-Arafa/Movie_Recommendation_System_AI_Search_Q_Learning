@@ -21,7 +21,7 @@ def depth_first_tree_search(problem, movie):
             print(f"Popping {node.movie_name}")
         recommended_movie, cost = problem.goal_test(node)
         if recommended_movie and cost:
-            net.show("dfs_tree.html")  
+            net.show("html_files\\dfs_tree.html")  
             return recommended_movie, cost
         for movie_index in range(len(problem.initial_state)):
             new_state = problem.actions(node.state, movie_index)
@@ -46,7 +46,7 @@ def depth_first_tree_search(problem, movie):
                 net.add_node(str(child_node.state), label=str(child_node.state), color="lightblue")
                 net.add_edge(str(node.state), str(child_node.state))
 
-    net.show("dfs_tree.html")  # Visualize and save the tree as an HTML file
+    net.show("html_files\\dfs_tree.html")  # Visualize and save the tree as an HTML file
     return None, None
 
 movie = '...E tu vivrai nel terrore! L\'aldil\u00e0'

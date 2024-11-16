@@ -27,7 +27,7 @@ def uniform_cost_search(problem, original_movie):
         problem.visited[state_tuple] = cost
         recommended_movie, cost = problem.goal_test(node,original_movie,movie)
         if recommended_movie and cost:
-            net.show("ucs_tree.html")  
+            net.show("html_files\\ucs_tree.html")  
             return recommended_movie, cost
         for name, transition_cost in graph[movie].items():
             child_node = Node.child(node, movies[name], transition_cost, name)
@@ -35,7 +35,7 @@ def uniform_cost_search(problem, original_movie):
             net.add_node(name, label=name, color="lightblue")
             net.add_edge(child_node.parent.movie_name, name)
             heapq.heappush(priority_queue, [child_cost, child_node, name])
-    net.show("ucs_tree.html")  
+    net.show("html_files\\ucs_tree.html")  
     return None, None
 
 

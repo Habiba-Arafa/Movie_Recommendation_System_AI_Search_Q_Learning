@@ -25,7 +25,7 @@ def breadth_first_tree_search(problem, movie):
             print(f"Popping {node.movie_name}")
         recommended_movie, cost = problem.goal_test(node)
         if recommended_movie and cost:
-            net.show("bfs_tree.html")  
+            net.show("html_files\\bfs_tree.html")  
             return recommended_movie, cost
         for movie_index in range(len(problem.initial_state)):
             new_state = problem.actions(node.state, movie_index)
@@ -46,7 +46,7 @@ def breadth_first_tree_search(problem, movie):
             elif parent_movie_name==None and child_name!=None:
                 net.add_node(child_name, label=child_name, color="lightblue")
                 net.add_edge(str(node.state), child_name)
-    net.show("bfs_tree.html")  # Visualize and save the tree as an HTML file
+    net.show("html_files\\bfs_tree.html")  # Visualize and save the tree as an HTML file
     return None
 
 
