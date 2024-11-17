@@ -1,6 +1,7 @@
 import numpy as np
 import json
 from sklearn.metrics.pairwise import cosine_similarity
+import cProfile
 
 with open('csvs_and_jsons/movie_vectors.json', 'r') as file:
     movie_vectors = json.load(file)
@@ -138,28 +139,35 @@ def genetic_algorithm_for_recommendations(
     return population, final_fitness_vals
 
 
-pop_size = 50
-num_movies = 5
-user_id = 'user1'
-generations = 1000
 
-evolved_population_final, fitness_vals_final = genetic_algorithm_for_recommendations(
-    pop_size, num_movies, user_id, generations, crossover_prob=0.7, mutation_rate=0.1, track_interval=100 
-)
 
-print("Evolved Population Final:", evolved_population_final)
-print("Fitness Values Final:", fitness_vals_final)
+def main():
+    pop_size = 50
+    num_movies = 5
+    user_id = 'user1'
+    generations = 1000
 
-max_fitness = max(fitness_vals_final)
+    evolved_population_final, fitness_vals_final = genetic_algorithm_for_recommendations(
+        pop_size, num_movies, user_id, generations, crossover_prob=0.7, mutation_rate=0.1, track_interval=100 
+    )
 
-# filter population to only include individuals with the highest fitness
-best_individuals = []
-max_fitness = max(fitness_vals_final) 
-for i in range(len(fitness_vals_final)):
-    if fitness_vals_final[i] == max_fitness:
-        best_individuals.append(evolved_population_final[i]) 
+    print("Evolved Population Final:", evolved_population_final)
+    print("Fitness Values Final:", fitness_vals_final)
 
-print("\nBest Individuals with Highest Fitness:")
-print(f"  Highest Fitness Value: {max_fitness:.4f}")
-for individual in best_individuals:
-    print(f"  Individual: {individual}")
+    max_fitness = max(fitness_vals_final)
+
+    # Filter population to only include individuals with the highest fitness
+    best_individuals = []
+    max_fitness = max(fitness_vals_final) 
+    for i in range(len(fitness_vals_final)):
+        if fitness_vals_final[i] == max_fitness:
+            best_individuals.append(evolved_population_final[i]) 
+
+    print("\nBest Individuals with Highest Fitness:")
+    print(f"  Highest Fitness Value: {max_fitness:.4f}")
+    for individual in best_individuals:
+        print(f"  Individual: {individual}")
+
+# Run cProfile on the main function
+if __name__ == "__main__":
+    cProfile.run("main()", sort="time")
