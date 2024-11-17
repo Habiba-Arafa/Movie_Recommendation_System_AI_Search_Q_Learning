@@ -5,6 +5,8 @@ from pyvis.network import Network
 import time
 import webbrowser
 import timeit
+import psutil
+import os
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -82,15 +84,30 @@ def astar_time_calculation():
 # start_movie = random.choice(list(weighted_graph.keys()))
 start_movie='The Emperor\'s New Groove'
 print(f'Currently getting recommendations for {start_movie}\n')
-start_time = time.time()
-astar_search = AstarSearch(start_movie)
-recommended_movie, cost = astar_search.search()
-end_time = time.time()
-run_time = end_time-start_time
-if recommended_movie:
-    print(f"Recommended Movie: {recommended_movie}, Cost: {cost}")
-else:
-    print("No recommendation found.")
+def astar_space_calculation():
+    process = psutil.Process(os.getpid())  
+    memory_info = process.memory_info()
+    rss = memory_info.rss / (1024 * 1024)  
+    vms = memory_info.vms / (1024 * 1024)  
+    return rss, vms
 
-print('Time taken by A* is', round(run_time, 2), "seconds")
-# webbrowser.open("html_files\\astar_movie_recommendation.html")
+# Track memory usage before and after
+start_rss, start_vms = astar_space_calculation()
+print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
+
+start_time = time.time()
+AstarSearch= AstarSearch(start_movie)
+recommended_movies = AstarSearch.search()
+end_time = time.time()
+
+end_rss, end_vms = astar_space_calculation()
+print(f"Memory usage after search: RSS = {end_rss:.2f} MB, VMS = {end_vms:.2f} MB")
+
+run_time = end_time - start_time
+print(f'Time taken by GBFS is {round(run_time, 2)} seconds')
+
+rss_diff = end_rss - start_rss
+vms_diff = end_vms - start_vms
+print(f'Memory usage increased by: RSS = {rss_diff:.2f} MB, VMS = {vms_diff:.2f} MB')
+def astar_space_ans():
+    return start_rss,end_rss

@@ -6,6 +6,8 @@ import timeit
 from pyvis.network import Network
 import random
 import webbrowser
+import psutil
+import os
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -56,16 +58,38 @@ def breadth_first_tree_search(problem, movie):
 # movie='Incendies'
 # movie = random.choice(list(movies.keys()))
 # movie="Deep Rising"
+def bfs_space_calculation():
+    process = psutil.Process(os.getpid())  
+    memory_info = process.memory_info()
+    rss = memory_info.rss / (1024 * 1024)  
+    vms = memory_info.vms / (1024 * 1024)  
+    return rss, vms
 
 movie='The Emperor\'s New Groove'
 initial_state = movies[movie]
 root= Node.root(initial_state,movie)
 recommender = MovieRecommender(root,initial_state, movie)
 print("Search has started...")
+
+# Track memory usage before and after
+start_rss, start_vms = bfs_space_calculation()
+print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
+
 start_time = time.time()
 recommended_movie, cost, goal_node= breadth_first_tree_search(recommender,movie)
 end_time = time.time()
 run_time = end_time-start_time
+end_rss, end_vms = bfs_space_calculation()
+print(f"Memory usage after search: RSS = {end_rss:.2f} MB, VMS = {end_vms:.2f} MB")
+
+run_time = end_time - start_time
+print(f'Time taken by GBFS is {round(run_time, 2)} seconds')
+
+rss_diff = end_rss - start_rss
+vms_diff = end_vms - start_vms
+print(f'Memory usage increased by: RSS = {rss_diff:.2f} MB, VMS = {vms_diff:.2f} MB')
+
+
 if recommended_movie and cost:
     print("Recommended movie is", recommended_movie, 'and the cost is', cost)
     print("Path to goal:", " -> ".join(find_path_to_goal(goal_node)))
@@ -84,5 +108,5 @@ def bfs_time_calculation():
     time_of_bfs = timeit.timeit(run_bfs, globals=globals(), number=number_of_times)
     bfs_average=time_of_bfs/number_of_times
     return bfs_average
-
-
+def bfs_space_ans():
+    return start_rss,end_rss

@@ -4,6 +4,8 @@ from pyvis.network import Network
 import random
 import time
 import timeit
+import psutil
+import os
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -59,16 +61,37 @@ def dfs_time_calculation():
     time_of_dfs = timeit.timeit(run_dfs, globals=globals(), number=number_of_times)
     dfs_average=time_of_dfs/number_of_times
     return dfs_average
+def dfs_space_calculation():
+    process = psutil.Process(os.getpid())  
+    memory_info = process.memory_info()
+    rss = memory_info.rss / (1024 * 1024)  
+    vms = memory_info.vms / (1024 * 1024)  
+    return rss, vms
 
 movie='The Emperor\'s New Groove'
 initial_state = movies[movie]
 root= Node.root(initial_state,movie)
 recommender = MovieRecommender(root,initial_state, movie)
 print("Search is starting...")
+# Track memory usage before and after
+start_rss, start_vms = dfs_space_calculation()
+print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
+
 start_time=time.time()
 recommended_movie, cost , node= depth_first_tree_search(recommender, movie)
 end_time=time.time()
 time_taken=end_time-start_time
+end_rss, end_vms = dfs_space_calculation()
+print(f"Memory usage after search: RSS = {end_rss:.2f} MB, VMS = {end_vms:.2f} MB")
+
+run_time = end_time - start_time
+print(f'Time taken by DFS is {round(run_time, 2)} seconds')
+
+rss_diff = end_rss - start_rss
+vms_diff = end_vms - start_vms
+print(f'Memory usage increased by: RSS = {rss_diff:.2f} MB, VMS = {vms_diff:.2f} MB')
+def dfs_space_ans():
+    return start_rss ,end_rss
 
 if recommended_movie and cost:
     print("Recommended movie is", recommended_movie, 'and the cost is', cost)
@@ -77,6 +100,3 @@ if recommended_movie and cost:
 else:
     print("No similar preference found.")
 print("Time taken by the DFS algorithm", round(time_taken,2),"seconds")
-=======
-webbrowser.open("html_files\\dfs_tree.html")
->>>>>>> Stashed changes

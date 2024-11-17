@@ -5,6 +5,8 @@ from pyvis.network import Network
 import webbrowser
 import time
 import timeit
+import psutil
+import os
 
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     movies = json.load(file)
@@ -87,19 +89,35 @@ def gbfs_time_calculation():
     greedy_bfs_average=time_of_greedybfs/number_of_times
     return greedy_bfs_average
 
+
 # start_movie =random.choice(list(weighted_graph.keys()))
 start_movie='The Emperor\'s New Groove'
 print(f'\nStarting recommendation search for movie: {start_movie}\n')
+
+def gbfs_space_calculation():
+    process = psutil.Process(os.getpid())  
+    memory_info = process.memory_info()
+    rss = memory_info.rss / (1024 * 1024)  
+    vms = memory_info.vms / (1024 * 1024)  
+    return rss, vms
+
+# Track memory usage before and after
+start_rss, start_vms = gbfs_space_calculation()
+print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
+
 start_time = time.time()
 greedy_bfs = GreedyBFS(start_movie)
 recommended_movies = greedy_bfs.search()
 end_time = time.time()
-run_time =end_time-start_time
 
-if recommended_movies:
-    print(f"\nRecommended Movies:{recommended_movies}")
-else:
-    print("\nNo recommendations found.")
+end_rss, end_vms = gbfs_space_calculation()
+print(f"Memory usage after search: RSS = {end_rss:.2f} MB, VMS = {end_vms:.2f} MB")
 
-# webbrowser.open("html_files\\greedy_bfs_movie_recommendation.html")
-print('Time taken by GBFS is', round(run_time, 2), "seconds")
+run_time = end_time - start_time
+print(f'Time taken by GBFS is {round(run_time, 2)} seconds')
+
+rss_diff = end_rss - start_rss
+vms_diff = end_vms - start_vms
+print(f'Memory usage increased by: RSS = {rss_diff:.2f} MB, VMS = {vms_diff:.2f} MB')
+def gbfs_space_ans():
+    return start_rss,end_rss

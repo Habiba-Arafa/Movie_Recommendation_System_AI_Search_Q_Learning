@@ -2,7 +2,8 @@ from problem_modeling import compute_similarity
 import json 
 import random 
 import time
-
+import psutil
+import os
 with open('csvs_and_jsons\\movie_vectors.json', 'r') as file:
     data = json.load(file)
 
