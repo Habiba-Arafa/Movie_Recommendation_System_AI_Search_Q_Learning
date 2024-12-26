@@ -54,16 +54,28 @@ def breadth_first_tree_search(problem, movie):
     net.show("html_files\\bfs_tree.html")  # Visualize and save the tree as an HTML file
     return None
 
+def run_bfs():
+    breadth_first_tree_search(recommender, movie)
 
-# movie='Incendies'
-# movie = random.choice(list(movies.keys()))
-# movie="Deep Rising"
+def bfs_time_calculation():
+    number_of_times=5
+    time_of_bfs = timeit.timeit(run_bfs, globals=globals(), number=number_of_times)
+    bfs_average=time_of_bfs/number_of_times
+    return bfs_average
+def bfs_space_ans():
+    return start_rss,end_rss
+
 def bfs_space_calculation():
     process = psutil.Process(os.getpid())  
     memory_info = process.memory_info()
     rss = memory_info.rss / (1024 * 1024)  
     vms = memory_info.vms / (1024 * 1024)  
     return rss, vms
+
+
+# movie='Incendies'
+# movie = random.choice(list(movies.keys()))
+# movie="Deep Rising"
 
 movie='The Emperor\'s New Groove'
 initial_state = movies[movie]
@@ -100,13 +112,3 @@ print()
 
 # webbrowser.open("html_files\\bfs_tree.html")
 
-def run_bfs():
-    breadth_first_tree_search(recommender, movie)
-
-def bfs_time_calculation():
-    number_of_times=5
-    time_of_bfs = timeit.timeit(run_bfs, globals=globals(), number=number_of_times)
-    bfs_average=time_of_bfs/number_of_times
-    return bfs_average
-def bfs_space_ans():
-    return start_rss,end_rss
