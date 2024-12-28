@@ -91,7 +91,8 @@ if __name__ == "__main__":
         print(f"Explored Path: {' -> '.join(explored_path)}") 
         print(f"Returned Path: {' -> '.join(returned_path)}") 
         print(f"Returned Movie: {best_movie}")  
-        print(f"Score of Returned Movie: {best_score}") 
+        print(f"Score of Returned Movie: {best_score}")
+        return best_movie 
 
     print("\n=== Profiling Hill Climbing ===")
     cProfile.run("run2()")

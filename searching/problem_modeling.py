@@ -39,9 +39,10 @@ class MovieRecommender:
         return vector_copy
 
     def goal_test(self, node):
-        if compute_similarity(node.state,self.root.state) >=0.80 and node.movie_name!= self.root.movie_name: 
-            return node.movie_name, node.path_cost, node
-        return None, None, None
+        similarity=compute_similarity(node.state,self.root.state)
+        if similarity >=0.80 and node.movie_name!= self.root.movie_name: 
+            return node.movie_name, node.path_cost, node, similarity
+        return None, None, None,None
 
     def result(self, state, action):
         return action 

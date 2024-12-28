@@ -25,10 +25,10 @@ def breadth_first_tree_search(problem, movie):
         problem.visited.add(state_tuple)
         if node.movie_name!=None:
             print(f"Popping {node.movie_name}")
-        recommended_movie, cost, goal_node= problem.goal_test(node)
+        recommended_movie, cost, goal_node,similarity = problem.goal_test(node)
         if recommended_movie and cost and goal_node:
             net.show("html_files\\bfs_tree.html")  
-            return recommended_movie, cost, goal_node
+            return recommended_movie, cost, goal_node, similarity
         for movie_index in range(len(problem.initial_state)):
             new_state = problem.actions(node.state, movie_index)
             child_name=None
@@ -72,6 +72,15 @@ def bfs_space_calculation():
     vms = memory_info.vms / (1024 * 1024)  
     return rss, vms
 
+def bfs_comparison(movies_list):
+    sum_similarity=0
+    for movie in movies_list:
+        initial_state = movies[movie]
+        root= Node.root(initial_state,movie)
+        recommender = MovieRecommender(root,initial_state, movie)
+        _,_,_,similarity= breadth_first_tree_search(recommender,movie)
+        sum_similarity+=similarity
+    return sum_similarity/len(movies_list)
 
 # movie='Incendies'
 # movie = random.choice(list(movies.keys()))
@@ -88,7 +97,7 @@ start_rss, start_vms = bfs_space_calculation()
 print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
 
 start_time = time.time()
-recommended_movie, cost, goal_node= breadth_first_tree_search(recommender,movie)
+recommended_movie, cost, goal_node, similarity= breadth_first_tree_search(recommender,movie)
 end_time = time.time()
 run_time = end_time-start_time
 end_rss, end_vms = bfs_space_calculation()

@@ -32,6 +32,7 @@ class GreedyBFS:
         }
         """)
         self.recommendations = []  # To store all recommendations
+        self.similairities=[]
     def search(self):
         start_state = self.movie
         print(f"Starting the search for movie: {start_state}")
@@ -52,7 +53,9 @@ class GreedyBFS:
             explored.add(current_movie)
             if current_movie != self.movie and current_movie not in self.recommendations:
                 print(f"Found a recommendation: {current_movie}")
-                self.recommendations.append(current_movie)  
+                self.recommendations.append(current_movie)
+                similarity = weighted_graph.get(self.movie, {}).get(current_movie, 1)
+                self.similairities.append(similarity)
             print(f"Expanding neighbors of movie {current_movie}...")
             neighbors = weighted_graph.get(current_movie, {}).items()
             expanded_neighbors = 0  
@@ -71,7 +74,7 @@ class GreedyBFS:
                     print(f"Added edge from {current_movie} to {neighbor} with similarity value: {similarity}")
             print(f"Expanded {expanded_neighbors} neighbors for {current_movie}.")
             self.visualize_network()
-        return self.recommendations
+        return self.recommendations, self.similairities
 
     def h(self, movie):
         similarity=weighted_graph.get(self.movie, {}).get(movie, 1)
@@ -89,6 +92,10 @@ def gbfs_time_calculation():
     greedy_bfs_average=time_of_greedybfs/number_of_times
     return greedy_bfs_average
 
+def gbfs_comparison():
+    greedy_bfs = GreedyBFS(start_movie)
+    _, similarities = greedy_bfs.search()
+    return sum(similarities)/len(similarities)
 
 # start_movie =random.choice(list(weighted_graph.keys()))
 start_movie='The Emperor\'s New Groove'

@@ -167,6 +167,7 @@ def main():
     print(f"  Highest Fitness Value: {max_fitness:.4f}")
     for individual in best_individuals:
         print(f"  Individual: {individual}")
+    return fitness_vals_final
 
 # Run cProfile on the main function
 if __name__ == "__main__":

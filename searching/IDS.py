@@ -26,10 +26,10 @@ def iterative_depth_first_search(problem, movie, max_depth=10):
             if state_tuple in visited:
                 continue
             visited.add(state_tuple)
-            recommended_movie, cost , goal_node= problem.goal_test(node)
+            recommended_movie, cost , goal_node, similarity= problem.goal_test(node)
             if recommended_movie and cost and goal_node:
                 net.show("html_files\\IDS_tree.html") 
-                return recommended_movie, cost, goal_node
+                return recommended_movie, cost, goal_node,similarity
             if current_depth<depth_limit: # TO LIMIT THE DEPTH EACH TIME IT ITERATE
                 for movie_index in range(len(problem.initial_state)):
                     new_state = problem.actions(node.state, movie_index)
@@ -62,12 +62,23 @@ def ids_time_calculation():
     time_of_ids = timeit.timeit(run_ids, globals=globals(), number=number_of_times)
     ids_average=time_of_ids/number_of_times
     return ids_average
+
 def ids_space_calculation():
     process = psutil.Process(os.getpid())  
     memory_info = process.memory_info()
     rss = memory_info.rss / (1024 * 1024)  
     vms = memory_info.vms / (1024 * 1024)  
     return rss, vms
+
+def ids_comparison(movies_list):
+    sum_similarity=0
+    for movie in movies_list:
+        initial_state = movies[movie]
+        root = Node.root(initial_state, movie)
+        recommender = MovieRecommender(root, initial_state, movie)
+        _,_,_,similarity=iterative_depth_first_search(recommender, movie)
+        sum_similarity+=similarity
+    return sum_similarity/len(movies_list)
 
 # movie = random.choice(list(movies.keys()))
 movie='The Emperor\'s New Groove'
@@ -81,7 +92,7 @@ start_rss, start_vms = ids_space_calculation()
 print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
 
 start_time = time.time()
-recommended_movie, cost, goal_node=iterative_depth_first_search(recommender, movie)
+recommended_movie, cost, goal_node, similarity=iterative_depth_first_search(recommender, movie)
 end_time = time.time()
 run_time = end_time-start_time
 

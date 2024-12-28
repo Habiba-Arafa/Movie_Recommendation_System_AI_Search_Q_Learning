@@ -47,7 +47,7 @@ def recommend_movie(test_movie, q_table, movies):
         current_movie = recommended_movie
         current_vector = movies[current_movie].copy()
 
-    return exploration_path
+    return exploration_path, max_similarity
 
 def qlearning_space_calculation():
     process = psutil.Process(os.getpid())  
@@ -56,12 +56,19 @@ def qlearning_space_calculation():
     vms = memory_info.vms / (1024 * 1024)  
     return rss, vms
 
+def qlearning_comparison(movies_list):
+    sum_similarities=0
+    for movie in movies_list:
+        _,similarity= recommend_movie(movie, q_table, movies)
+        sum_similarities+=similarity
+    return sum_similarities/len(movies_list)
+
 start_rss, start_vms = qlearning_space_calculation()
 print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
 
-test_movie = "Avatar"
-exploration_path = recommend_movie(test_movie, q_table, movies)
-print(f"\nExploration path for '{test_movie}': {exploration_path}")
+test_movie = "Mad Max 2"
+exploration_path, similarity = recommend_movie(test_movie, q_table, movies)
+print(f"\nExploration path for '{test_movie}': {exploration_path}, and the similarity {similarity}")
 
 end_rss, end_vms = qlearning_space_calculation()
 print(f"Memory usage after search: RSS = {end_rss:.2f} MB, VMS = {end_vms:.2f} MB")

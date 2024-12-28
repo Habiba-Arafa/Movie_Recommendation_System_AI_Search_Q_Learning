@@ -23,10 +23,10 @@ def depth_first_tree_search(problem, movie):
         problem.visited.add(state_tuple)
         if node.movie_name!=None:
             print(f"Popping {node.movie_name}")
-        recommended_movie, cost , goal_node= problem.goal_test(node)
+        recommended_movie, cost , goal_node, similarity= problem.goal_test(node)
         if recommended_movie and cost and goal_node:
             net.show("html_files\\dfs_tree.html")  
-            return recommended_movie, cost, goal_node
+            return recommended_movie, cost, goal_node,similarity
         for movie_index in range(len(problem.initial_state)):
             new_state = problem.actions(node.state, movie_index)
             child_name=None
@@ -61,12 +61,23 @@ def dfs_time_calculation():
     time_of_dfs = timeit.timeit(run_dfs, globals=globals(), number=number_of_times)
     dfs_average=time_of_dfs/number_of_times
     return dfs_average
+
 def dfs_space_calculation():
     process = psutil.Process(os.getpid())  
     memory_info = process.memory_info()
     rss = memory_info.rss / (1024 * 1024)  
     vms = memory_info.vms / (1024 * 1024)  
     return rss, vms
+
+def dfs_comparison(movies_list):
+    sum_similarity=0
+    for movie in movies_list:
+        initial_state = movies[movie]
+        root= Node.root(initial_state,movie)
+        recommender = MovieRecommender(root,initial_state, movie)
+        _,_,_,similarity= depth_first_tree_search(recommender,movie)
+        sum_similarity+=similarity
+    return sum_similarity/len(movies_list)
 
 movie='The Emperor\'s New Groove'
 initial_state = movies[movie]
@@ -78,7 +89,7 @@ start_rss, start_vms = dfs_space_calculation()
 print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
 
 start_time=time.time()
-recommended_movie, cost , node= depth_first_tree_search(recommender, movie)
+recommended_movie, cost , node, similarity= depth_first_tree_search(recommender, movie)
 end_time=time.time()
 time_taken=end_time-start_time
 end_rss, end_vms = dfs_space_calculation()

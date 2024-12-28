@@ -32,6 +32,7 @@ class AstarSearch:
             }
         }
         """)
+        self.similarities=[]
     def search(self):
         start_state = self.movie
         frontier = [(self.h(start_state), 0, start_state)]  # f(n)=h(n) + g(n)
@@ -45,8 +46,10 @@ class AstarSearch:
             f_n = path_cost + self.h(current_movie)  
             if current_movie != self.movie and path_cost > 1:
                 print(f"Recommended Movie: {current_movie}, Path Cost: {path_cost}")
+                similarity = weighted_graph.get(self.movie, {}).get(current_movie, 1)
+                self.similarities.append(similarity)
                 self.visualize_network() 
-                return current_movie, path_cost 
+                return current_movie, path_cost, self.similarities
 
             for neighbor, similarity in weighted_graph.get(current_movie, {}).items():
                 if neighbor not in explored:
@@ -81,8 +84,13 @@ def astar_time_calculation():
     astar_average=time_of_astar/number_of_times
     return astar_average
 
+def astar_comparison():
+    astarSearch = AstarSearch(start_movie)
+    _,_,similarities = astarSearch.search()
+    return sum(similarities)/len(similarities)
+
 # start_movie = random.choice(list(weighted_graph.keys()))
-start_movie='The Emperor\'s New Groove'
+start_movie='Mad Max 2'
 print(f'Currently getting recommendations for {start_movie}\n')
 def astar_space_calculation():
     process = psutil.Process(os.getpid())  
@@ -96,8 +104,8 @@ start_rss, start_vms = astar_space_calculation()
 print(f"Memory usage before search: RSS = {start_rss:.2f} MB, VMS = {start_vms:.2f} MB")
 
 start_time = time.time()
-AstarSearch= AstarSearch(start_movie)
-recommended_movies = AstarSearch.search()
+astarSearch= AstarSearch(start_movie)
+recommended_movies = astarSearch.search()
 end_time = time.time()
 
 end_rss, end_vms = astar_space_calculation()

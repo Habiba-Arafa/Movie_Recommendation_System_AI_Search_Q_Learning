@@ -21,6 +21,7 @@ def toggle_bit(vector, index):
 # gamma = 0.9  # Discount factor
 # epsilon = 0.1  # Exploration rate
 # episodes = 1000 
+# step_penalty = -0.01  # Penalize each step
 
 # q_table = initialize_q_table(movies)
 
@@ -57,7 +58,7 @@ def toggle_bit(vector, index):
 #         print(f"    Recommended movie: {recommended_movie} with similarity {max_similarity}")
 
 #         # Calculate reward
-#         reward = max_similarity
+#         reward = max_similarity + step_penalty
 #         print(f"    Reward: {reward}")
 
 #         # Update Q-value
@@ -74,8 +75,11 @@ def toggle_bit(vector, index):
 #         print(f"    Transitioning to new movie: {current_movie}")
 
 #     print(f"Episode {episode + 1} completed\n")
+#     if episode==500:
+#         with open('csvs_and_jsons/q_table_midway','w') as file:
+#             json.dump(q_table,file,indent=4)
 
-# with open('csvs_and_jsons/q_table_trained.json', 'w') as file:
+# with open('csvs_and_jsons/q_table_trained2.json', 'w') as file:
 #     json.dump(q_table, file, indent=4)
 
 
