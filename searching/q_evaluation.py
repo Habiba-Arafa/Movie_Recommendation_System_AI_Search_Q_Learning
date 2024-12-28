@@ -1,7 +1,6 @@
 import numpy as np
 import json
 from sklearn.metrics.pairwise import cosine_similarity
-import matplotlib.pyplot as plt
 from problem_modeling import MovieRecommender, Node, compute_similarity
 from qlearning import toggle_bit
 
