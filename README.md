@@ -97,4 +97,4 @@ Open any file in `html_files/` in your browser to see traversal paths.
 
 ## License
 
-This project is licensed under the MIT License.
+This project is under the MIT License.
