@@ -1,6 +1,8 @@
 Movie Recommendation System using AI Search & Q-Learning
 
-This repository contains intelligent Movie Recommendation System using various Artificial Intelligence approaches. It makes use of **Graph Search Algorithms**, **Q-Learning**, and **Genetic Algorithm** to generate and score personalized movie recommendations.
+
+Movie Recommendation System uses Graph Search Algorithms, Q-Learning, and Genetic Algorithms to recommend movies based on user preferences
+
 
 ---
 
