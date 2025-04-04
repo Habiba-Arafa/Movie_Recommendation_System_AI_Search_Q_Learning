@@ -1,28 +1,13 @@
-# 🎬 Movie Recommendation System using AI Search & Q-Learning
+Movie Recommendation System using AI Search & Q-Learning
 
-This repository contains an intelligent Movie Recommendation System powered by various Artificial Intelligence techniques. It uses **Graph Search Algorithms**, **Q-Learning**, and **Genetic Algorithms** to generate and evaluate personalized movie suggestions.
-
----
-
-## 📁 Project Structure
-
-```
-movie_recommendation-main/
-├── cleaning_and_generation_files/        # Data cleaning & synthetic user/graph generators
-├── csvs_and_jsons/                        # Datasets, movie vectors, Q-tables, graphs
-├── html_files/                            # Visual HTML graph/tree outputs
-├── lib/                                   # JS libraries for HTML visualizations
-├── searching/                             # AI Search & Reinforcement Learning algorithms
-├── Project Description.pdf                # Project Overview
-├── Qlearning.pdf                          # Q-learning implementation & results
-└── README.md                              # Project documentation
-```
+This repository contains intelligent Movie Recommendation System using various Artificial Intelligence approaches. It makes use of **Graph Search Algorithms**, **Q-Learning**, and **Genetic Algorithm** to generate and score personalized movie recommendations.
 
 ---
 
-## 🤖 Algorithms Used
 
-### 🔍 Search Algorithms:
+##  Algorithms Used
+
+### Search Algorithms:
 - **Breadth-First Search (BFS)**
 - **Depth-First Search (DFS)**
 - **Uniform Cost Search (UCS)**
@@ -30,55 +15,56 @@ movie_recommendation-main/
 - **A\* Search**
 - **Iterative Deepening Search (IDS)**
 
-Each search technique finds optimal movie recommendations based on graph traversal across movie similarities and genres.
+All search techniques find top movie recommendations by graph traversal between movie similarities and genres.
 
-### 🔁 Q-Learning (Reinforcement Learning):
+###  Q-Learning (Reinforcement Learning):
 - **States**: Binary movie vectors (representing features)
-- **Actions**: Bit flips to change features
+- **Actions**: flip Bit to change features
 - **Rewards**: Cosine similarity improvement
 - **Training**: Over 1000 episodes with a trained Q-table
 - **Output**: A sequence of recommended movies using learned policy
 
-### 🧬 Genetic Algorithms:
-- Generate synthetic user preferences
-- Evolve movie recommendations using crossover and mutation
-- Score individuals based on similarity to user profile
+### Genetic Algorithms:
+- Generate user preferences 
+- Develop movie recommendations based on crossover and mutation
+- Score users on similarity to user profile
 
 ---
 
-## 📚 Datasets & Files
+## Files
 
-- `movie_dataset.csv`, `cleaned_movie_dataset.csv`: Raw and processed movie data
-- `movie_vectors.json`: Binary vector representation of each movie
+- `movie_dataset.csv`, `cleaned_movie_dataset.csv`: Instead making vectors manually a dataset used to build vactors of films 
+- `movie_vectors.json`: Binary vector for each movie
 - `q_table_trained.json`: Q-values after learning optimal policy
-- `random_users.json`: Synthetic user profiles
+- `random_users.json`: user preferences profiles
 - `random_connections_graph.json`: Graph used in search algorithms
 
 ---
 
-## 📊 Results (Q-Learning Highlights)
+## Results (Q-Learning)
 
-- Cosine similarity improved across iterations
-- Actions with the highest impact were reinforced in the Q-table
-- Final policy successfully recommends movies with similar genres
-- Detailed explanation in `Qlearning.pdf`
+- Cosine similarity improved with iteration
+- Most effective actions were stored in Q-table
+- End policy can successfully recommend movies of the same genre
+- Step-by-step explanation in `Qlearning.pdf`
+
 
 ---
 
-## 🌐 Visualization
+## Visualization
 
-All graph-based algorithm visualizations can be opened in your browser:
+All graph-based algorithm visualizations can be seen in your browser:
 
 - `html_files/astar_movie_recommendation.html`
 - `html_files/bfs_tree.html`
 - `html_files/dfs_tree.html`
 - `html_files/weighted_graph_visualization.html`
 
-These show how each algorithm searches through the movie network to generate recommendations.
+These show how each algorithm traverses the movie network to provide recommendations.
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 ### 1. Install Dependencies
 
@@ -106,9 +92,9 @@ python searching/qlearning_test.py
 
 ### 5. Visualize Graph Searches
 
-Open any file inside `html_files/` in your browser to see traversal paths.
+Open any file in `html_files/` in your browser to see traversal paths.
 
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
